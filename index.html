@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DigiSystem AI Tools | Banner Prompt Generator</title>
+  <meta name="description" content="Generate production-ready AI banner prompts for Flux, Midjourney and DALL-E 3. Crafted by DigiSystem AI Tools." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background: radial-gradient(1200px 800px at 80% -10%, rgba(34, 211, 238, 0.14), transparent 60%),
+                  radial-gradient(1000px 700px at 10% 110%, rgba(168, 85, 247, 0.14), transparent 60%),
+                  #05060a;
+    }
+    .glass {
+      background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .neon-ring {
+      position: relative;
+    }
+    .neon-ring::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(34,211,238,0.7), rgba(168,85,247,0.7), rgba(244,63,94,0.5));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    .glow-cyan { box-shadow: 0 0 24px rgba(34,211,238,0.35); }
+    .glow-purple { box-shadow: 0 0 28px rgba(168,85,247,0.35); }
+    .text-glow { text-shadow: 0 0 18px rgba(34,211,238,0.45); }
+    select, input, textarea {
+      color-scheme: dark;
+    }
+    .prompt-cursor::after {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      background: #22d3ee;
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blink 1s steps(2) infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    .spin-slow { animation: spin 1.2s linear infinite; }
+  </style>
+</head>
+<body class="min-h-screen font-sans text-slate-200 antialiased selection:bg-cyan-500/30">
+
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 pb-20">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-20 pt-4 pb-2">
+      <div class="glass neon-ring rounded-2xl px-5 py-3 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="h-9 w-9 rounded-xl bg-gradient-to-br from-cyan-400 via-purple-500 to-rose-500 grid place-items-center font-extrabold text-white shadow-lg glow-purple">
+            D
+          </div>
+          <div>
+            <p class="text-sm sm:text-base font-bold text-white leading-tight">DigiSystem AI Tools</p>
+            <p class="text-[11px] sm:text-xs text-cyan-300/80 font-medium tracking-wide uppercase">Banner Prompt Generator</p>
+          </div>
+        </div>
+        <a href="https://github.com" target="_blank" rel="noopener" class="hidden sm:flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-slate-300 hover:bg-white/10 hover:text-white transition">
+          <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          Tool Ready
+        </a>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="mt-10 text-center">
+      <span class="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-1.5 text-xs font-semibold text-cyan-300 tracking-wide">
+        <span class="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+        Flux &middot; Midjourney &middot; DALL-E 3 ready
+      </span>
+      <h1 class="mt-5 text-3xl sm:text-5xl font-extrabold text-white text-glow leading-tight">
+        Banner Prompt Generator
+      </h1>
+      <p class="mt-4 max-w-xl mx-auto text-sm sm:text-base text-slate-400">
+        Craft production-ready AI banner prompts in seconds. Pick your platform, style and product — we do the prompt engineering for you.
+      </p>
+    </section>
+
+    <!-- Card -->
+    <main class="glass neon-ring rounded-3xl mt-10 p-6 sm:p-10 glow-cyan">
+      <div class="grid gap-6 sm:gap-8">
+
+        <!-- Platform -->
+        <label class="block">
+          <span class="mb-2 flex items-center justify-between text-sm font-semibold text-slate-300">
+            <span>Platform</span>
+            <span class="text-[11px] font-medium text-slate-500" id="platformRatioHint">Aspect Ratio: —</span>
+          </span>
+          <select id="platform" class="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition">
+            <option value="Website Hero Banner">Website Hero Banner</option>
+            <option value="YouTube Thumbnail">YouTube Thumbnail</option>
+            <option value="LinkedIn Banner">LinkedIn Banner</option>
+            <option value="E-commerce Product Ad">E-commerce Product Ad</option>
+            <option value="Facebook Cover">Facebook Cover</option>
+          </select>
+        </label>
+
+        <!-- Industry -->
+        <label class="block">
+          <span class="mb-2 flex items-center justify-between text-sm font-semibold text-slate-300">
+            <span>Industry</span>
+            <span class="text-[11px] font-medium text-slate-500">Niche-aware language</span>
+          </span>
+          <select id="industry" class="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-purple-400/70 focus:ring-2 focus:ring-purple-400/20 transition">
+            <option value="E-commerce & Retail">E-commerce &amp; Retail</option>
+            <option value="Agency & Tech">Agency &amp; Tech</option>
+            <option value="Fitness & Health">Fitness &amp; Health</option>
+            <option value="Real Estate">Real Estate</option>
+            <option value="Food & Restaurant">Food &amp; Restaurant</option>
+          </select>
+        </label>
+
+        <!-- Visual Style -->
+        <label class="block">
+          <span class="mb-2 flex items-center justify-between text-sm font-semibold text-slate-300">
+            <span>Visual Style</span>
+            <span class="text-[11px] font-medium text-slate-500">Model-friendly style pack</span>
+          </span>
+          <select id="style" class="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-rose-400/70 focus:ring-2 focus:ring-rose-400/20 transition">
+            <option value="Modern Minimalist">Modern Minimalist</option>
+            <option value="Cyberpunk & Neon">Cyberpunk &amp; Neon</option>
+            <option value="Corporate Professional">Corporate Professional</option>
+            <option value="Bold & Energetic">Bold &amp; Energetic</option>
+            <option value="3D Render">3D Render</option>
+          </select>
+        </label>
+
+        <!-- Topic -->
+        <label class="block">
+          <span class="mb-2 flex items-center justify-between text-sm font-semibold text-slate-300">
+            <span>Product / Topic Details</span>
+            <span class="text-[11px] font-medium text-slate-500">Be specific for best results</span>
+          </span>
+          <input id="topic" type="text" value="Wireless Gaming Headphones"
+            placeholder="e.g. Wireless Gaming Headphones, luxury studio apartment, keto meal box..."
+            class="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition placeholder:text-slate-600" />
+        </label>
+
+        <!-- Generate -->
+        <button id="generateBtn"
+          class="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-cyan-500 via-purple-500 to-rose-500 p-[1.5px] transition-transform duration-200 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:hover:scale-100">
+          <span class="flex items-center justify-center gap-3 rounded-[11px] bg-black/70 px-6 py-3.5 text-sm font-bold text-white backdrop-blur transition group-hover:bg-black/50">
+            <span id="btnSpinner" class="hidden h-4 w-4 rounded-full border-2 border-white/30 border-t-cyan-300 spin-slow"></span>
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            <span id="btnLabel">Generate Prompt</span>
+          </span>
+        </button>
+
+        <!-- Output -->
+        <section id="outputSection" class="hidden">
+          <div class="grid gap-4 sm:grid-cols-3 sm:items-start">
+            <div class="sm:col-span-2">
+              <div class="mb-2 flex items-center justify-between">
+                <span class="text-sm font-semibold text-slate-300">Generated Prompt</span>
+                <button id="copyBtn" class="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-cyan-300 hover:bg-cyan-400/10 hover:border-cyan-400/40 transition">
+                  <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+                  </svg>
+                  <span id="copyLabel">Copy Prompt</span>
+                </button>
+              </div>
+              <textarea id="promptOutput" readonly rows="8"
+                class="w-full resize-none rounded-xl border border-white/10 bg-black/50 p-4 font-mono text-[12.5px] leading-relaxed text-cyan-100/90 outline-none focus:border-cyan-400/50 transition"></textarea>
+              <div id="typingCursor" class="prompt-cursor text-cyan-400 text-sm hidden"></div>
+            </div>
+            <aside class="glass rounded-xl p-4">
+              <p class="text-xs font-bold uppercase tracking-widest text-cyan-300/90">Aspect Ratio Guide</p>
+              <p id="ratioBox" class="mt-2 text-2xl font-extrabold text-white font-mono">—</p>
+              <p id="ratioNote" class="mt-1 text-xs text-slate-400 leading-relaxed">Select a platform to see its dimensions.</p>
+              <hr class="my-3 border-white/10" />
+              <p class="text-[11px] text-slate-500 leading-relaxed">Swap the ratio token in the prompt for other aspect ratios like <span class="font-mono text-slate-300">16:9</span>, <span class="font-mono text-slate-300">1:1</span> or <span class="font-mono text-slate-300">9:16</span>.</p>
+            </aside>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <footer class="mt-10 text-center text-xs text-slate-600">
+      Built by <span class="font-semibold text-slate-400">DigiSystem AI Tools</span> &middot; Copy the prompt into Flux, Midjourney or DALL-E 3 to render.
+    </footer>
+  </div>
+
+  <script>
+    const PLATFORMS = {
+      "Website Hero Banner": { ratio: "16:9", note: "Wide landing-page hero, landscape." },
+      "YouTube Thumbnail":  { ratio: "16:9", note: "1280x720, bold focal point for CTR." },
+      "LinkedIn Banner":    { ratio: "4:1",  note: "1584x396, ultra-wide profile banner." },
+      "E-commerce Product Ad": { ratio: "1:1", note: "Square, perfect for feeds & ads." },
+      "Facebook Cover":     { ratio: "4:1",  note: "1640x856, desktop cover crop." },
+    };
+
+    const STYLE_PACKS = {
+      "Modern Minimalist": [
+        "clean minimal composition", "generous negative space", "soft studio lighting",
+        "muted premium palette", "elegant sans-serif typography", "high-end product photography aesthetic"
+      ],
+      "Cyberpunk & Neon": [
+        "neon cyberpunk aesthetic", "electric cyan and magenta glow", "sci-fi city bokeh background",
+        "reflections on wet surfaces", "high contrast", "futuristic typography"
+      ],
+      "Corporate Professional": [
+        "corporate professional design", "deep navy and gold accents", "clean grid layout",
+        "confident trustworthy tone", "crisp editorial lighting", "premium business branding"
+      ],
+      "Bold & Energetic": [
+        "bold energetic composition", "vibrant saturated colors", "dynamic diagonal motion",
+        "explosive action lighting", "punchy display typography", "high-impact advertising style"
+      ],
+      "3D Render": [
+        "photorealistic 3D render", "octane render quality", "soft global illumination",
+        "smooth studio backdrop", "premium glass and metal materials", "intricate detail"
+      ],
+    };
+
+    const INDUSTRY_KEYWORDS = {
+      "E-commerce & Retail": ["shoppable hero layout", "premium product spotlight", "designed to drive conversions"],
+      "Agency & Tech": ["modern tech agency vibe", "sleek digital interface motifs", "innovative and scalable look"],
+      "Fitness & Health": ["high-energy fitness appeal", "fresh and vibrant health colors", "active lifestyle energy"],
+      "Real Estate": ["luxury architectural appeal", "warm inviting light", "aspirational living spaces"],
+      "Food & Restaurant": ["appetizing food styling", "rich warm tones", "fresh ingredients detail"],
+    };
+
+    const platformEl   = document.getElementById('platform');
+    const industryEl   = document.getElementById('industry');
+    const styleEl      = document.getElementById('style');
+    const topicEl      = document.getElementById('topic');
+    const generateBtn  = document.getElementById('generateBtn');
+    const btnLabel     = document.getElementById('btnLabel');
+    const btnSpinner   = document.getElementById('btnSpinner');
+    const outputSection= document.getElementById('outputSection');
+    const promptOutput = document.getElementById('promptOutput');
+    const copyBtn      = document.getElementById('copyBtn');
+    const copyLabel    = document.getElementById('copyLabel');
+    const typingCursor = document.getElementById('typingCursor');
+    const ratioBox     = document.getElementById('ratioBox');
+    const ratioNote    = document.getElementById('ratioNote');
+    const platformRatioHint = document.getElementById('platformRatioHint');
+
+    function updateRatioHint() {
+      const p = PLATFORMS[platformEl.value];
+      platformRatioHint.textContent = 'Aspect Ratio: ' + p.ratio;
+      ratioBox.textContent = p.ratio;
+      ratioNote.textContent = p.note;
+    }
+
+    function buildPrompt() {
+      const platform = platformEl.value;
+      const industry = industryEl.value;
+      const style    = styleEl.value;
+      const topic    = topicEl.value.trim() || 'premium product';
+      const { ratio } = PLATFORMS[platform];
+      const styleWords = STYLE_PACKS[style].join(', ');
+      const industryWords = INDUSTRY_KEYWORDS[industry].join(', ');
+      return [
+        `Ultra-detailed banner design for ${platform}.`,
+        `Subject: ${topic}.`,
+        `Style: ${styleWords}.`,
+        `Industry tone: ${industryWords}.`,
+        `High-resolution marketing banner, sharp focus, professional color grading, visually balanced layout with clear focal point.`,
+        `Aspect ratio --ar ${ratio}. Render-ready for ${platform}.`
+      ].join(' ');
+    }
+
+    async function typePrompt(text) {
+      promptOutput.value = '';
+      typingCursor.classList.remove('hidden');
+      promptOutput.scrollTop = 0;
+      const step = 6;
+      for (let i = 0; i <= text.length; i += step) {
+        promptOutput.value = text.slice(0, i);
+        promptOutput.scrollTop = promptOutput.scrollHeight;
+        await new Promise(r => setTimeout(r, 6));
+      }
+      promptOutput.value = text;
+      typingCursor.classList.add('hidden');
+    }
+
+    function copyPrompt() {
+      if (!promptOutput.value) return;
+      const done = () => {
+        copyLabel.textContent = 'Copied!';
+        copyBtn.classList.add('border-emerald-400/50', 'text-emerald-300');
+        setTimeout(() => {
+          copyLabel.textContent = 'Copy Prompt';
+          copyBtn.classList.remove('border-emerald-400/50', 'text-emerald-300');
+        }, 1800);
+      };
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(promptOutput.value).then(done).catch(() => fallbackCopy(done));
+      } else {
+        fallbackCopy(done);
+      }
+    }
+
+    function fallbackCopy(done) {
+      promptOutput.select();
+      promptOutput.setSelectionRange(0, promptOutput.value.length);
+      try { document.execCommand('copy'); done(); } catch (e) { prompt('Press Ctrl+C to copy:', promptOutput.value); }
+    }
+
+    generateBtn.addEventListener('click', async () => {
+      const text = buildPrompt();
+      generateBtn.disabled = true;
+      btnSpinner.classList.remove('hidden');
+      btnLabel.textContent = 'Generating...';
+      await new Promise(r => setTimeout(r, 450));
+      outputSection.classList.remove('hidden');
+      await typePrompt(text);
+      generateBtn.disabled = false;
+      btnSpinner.classList.add('hidden');
+      btnLabel.textContent = 'Regenerate Prompt';
+      outputSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    copyBtn.addEventListener('click', copyPrompt);
+    platformEl.addEventListener('change', updateRatioHint);
+    topicEl.addEventListener('keydown', e => { if (e.key === 'Enter') generateBtn.click(); });
+
+    updateRatioHint();
+  </script>
+</body>
+</html>
