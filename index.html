@@ -196,6 +196,11 @@
             <option value="Mobile App Splash">Mobile App Splash</option>
             <option value="Etsy Shop Banner">Etsy Shop Banner</option>
             <option value="Amazon Product Image">Amazon Product Image</option>
+            <option value="Facebook Feed Ad">Facebook Feed Ad</option>
+            <option value="Instagram Reels Cover">Instagram Reels Cover</option>
+            <option value="YouTube End Screen">YouTube End Screen</option>
+            <option value="Google Business Cover">Google Business Cover</option>
+            <option value="WhatsApp Catalog Image">WhatsApp Catalog Image</option>
           </select>
         </label>
 
@@ -241,6 +246,11 @@
             <option value="IT & Cybersecurity">IT &amp; Cybersecurity</option>
             <option value="Books & Publishing">Books &amp; Publishing</option>
             <option value="Music & Audio">Music &amp; Audio</option>
+            <option value="Bakery & Confectionery">Bakery &amp; Confectionery</option>
+            <option value="Dental & Clinics">Dental &amp; Clinics</option>
+            <option value="Furniture & Home Decor">Furniture &amp; Home Decor</option>
+            <option value="Optical & Eyewear">Optical &amp; Eyewear</option>
+            <option value="Drones & Gadgets">Drones &amp; Gadgets</option>
           </select>
         </label>
 
@@ -286,6 +296,11 @@
             <option value="Chalkboard Doodle">Chalkboard Doodle</option>
             <option value="Chrome Metal">Chrome Metal</option>
             <option value="Voxel 3D">Voxel 3D</option>
+            <option value="Neon Signs">Neon Signs</option>
+            <option value="Double Exposure">Double Exposure</option>
+            <option value="Kaleidoscope">Kaleidoscope</option>
+            <option value="Embroidery">Embroidery</option>
+            <option value="Wireframe Blueprint">Wireframe Blueprint</option>
           </select>
         </label>
 
@@ -308,6 +323,21 @@
           <input id="topic" type="text" value="Wireless Gaming Headphones"
             placeholder="e.g. Wireless Gaming Headphones, luxury studio apartment, keto meal box..."
             class="w-full rounded-xl border border-white/10 bg-[#16213b]/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition placeholder:text-slate-600" />
+        </label>
+
+        <!-- Primary Color -->
+        <label class="block">
+          <span class="mb-2 flex items-center justify-between text-sm font-head font-semibold text-slate-300">
+            <span>Primary Color</span>
+            <span class="text-[11px] font-medium text-slate-500">Accent used in the design</span>
+          </span>
+          <div class="flex flex-wrap items-center gap-3">
+            <input id="color" type="color" value="#06b6d4"
+              class="h-11 w-16 cursor-pointer rounded-lg border border-white/10 bg-transparent p-1" />
+            <input id="colorHex" type="text" value="#06B6D4" maxlength="7"
+              class="w-28 rounded-xl border border-white/10 bg-[#16213b]/80 px-3 py-2 text-sm font-mono text-white uppercase outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition" />
+            <div id="colorSwatches" class="flex flex-wrap items-center gap-2"></div>
+          </div>
         </label>
 
         <!-- Generate -->
@@ -406,6 +436,11 @@
       "Mobile App Splash":  { ratio: "9:16", note: "App launch splash screen art." },
       "Etsy Shop Banner":   { ratio: "3:1",  note: "Shop cover 1200x400 for Etsy." },
       "Amazon Product Image": { ratio: "1:1", note: "Main product image with white or lifestyle bg." },
+      "Facebook Feed Ad":   { ratio: "4:5",  note: "1200x1500 vertical feed ad." },
+      "Instagram Reels Cover": { ratio: "9:16", note: "1080x1920 vertical reel cover." },
+      "YouTube End Screen": { ratio: "16:9", note: "1920x1080 end card layout." },
+      "Google Business Cover": { ratio: "16:9", note: "Cover photo for local business profile." },
+      "WhatsApp Catalog Image": { ratio: "1:1", note: "Square product catalog photo." },
     };
 
     const STYLE_PACKS = {
@@ -549,6 +584,26 @@
         "blocky voxel 3D art style", "cube-grid world", "soft per-block shading",
         "sandbox game nostalgia", "clean geometric color blocks", "playful depth and scale"
       ],
+      "Neon Signs": [
+        "glowing neon sign style", "bent glass tube lettering", "electric color glow",
+        "dark brick background", "reflective city surfaces", "bright illuminated signage"
+      ],
+      "Double Exposure": [
+        "artistic double exposure style", "silhouette and landscape blend", "dreamy overlapping imagery",
+        "film texture overlay", "surreal layered meaning", "elegant photographic contrast"
+      ],
+      "Kaleidoscope": [
+        "psychedelic kaleidoscope style", "symmetrical mirrored patterns", "vibrant fractals",
+        "mandala-like geometry", "dense color detail", "mesmerizing optical art"
+      ],
+      "Embroidery": [
+        "hand-stitched embroidery style", "textured thread strokes", "soft fabric weave",
+        "warm craft aesthetic", "colorful stitching detail", "cozy handmade charm"
+      ],
+      "Wireframe Blueprint": [
+        "technical wireframe blueprint style", "thin glowing grid lines", "engineering draft aesthetic",
+        "blueprint blue background", "labeled product geometry", "precise schematic layout"
+      ],
     };
 
     const INDUSTRY_KEYWORDS = {
@@ -587,6 +642,11 @@
       "IT & Cybersecurity": ["secure digital fortress look", "clean tech circuitry", "shield and firewall motifs"],
       "Books & Publishing": ["warm literary atmosphere", "classic type and paper textures", "curated reading aesthetic"],
       "Music & Audio": ["dynamic sound-wave energy", "studio stage lighting", "rhythmic visual flow"],
+      "Bakery & Confectionery": ["fresh-baked aroma feel", "soft creamy pastel tones", "delicious dessert styling"],
+      "Dental & Clinics": ["clean clinical trust", "bright white precision", "gentle caring atmosphere"],
+      "Furniture & Home Decor": ["cozy interior styling", "warm material textures", "elegant space composition"],
+      "Optical & Eyewear": ["crisp frame product focus", "stylish studio reflections", "fashion-forward clarity"],
+      "Drones & Gadgets": ["futuristic tech product vibe", "sleek carbon details", "dynamic aerial energy"],
     };
 
     const platformEl   = document.getElementById('platform');
@@ -594,6 +654,9 @@
     const styleEl      = document.getElementById('style');
     const brandEl      = document.getElementById('brand');
     const topicEl      = document.getElementById('topic');
+    const colorEl      = document.getElementById('color');
+    const colorHexEl   = document.getElementById('colorHex');
+    const colorSwatchesEl = document.getElementById('colorSwatches');
     const generateBtn  = document.getElementById('generateBtn');
     const btnLabel     = document.getElementById('btnLabel');
     const btnSpinner   = document.getElementById('btnSpinner');
@@ -613,22 +676,49 @@
       ratioNote.textContent = p.note;
     }
 
+    const SWATCHES = ['#06B6D4', '#A78BFA', '#F43F5E', '#FACC15', '#34D399', '#3B82F6', '#F97316', '#FFFFFF', '#111827'];
+    SWATCHES.forEach(c => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.style.background = c;
+      btn.className = 'h-7 w-7 rounded-full border border-white/20 transition hover:scale-110';
+      btn.title = c;
+      btn.setAttribute('aria-label', 'Color ' + c);
+      btn.addEventListener('click', () => {
+        colorEl.value = c;
+        colorHexEl.value = c;
+      });
+      colorSwatchesEl.appendChild(btn);
+    });
+
+    colorEl.addEventListener('input', () => { colorHexEl.value = colorEl.value.toUpperCase(); });
+    colorHexEl.addEventListener('change', () => {
+      let v = colorHexEl.value.trim();
+      if (v && !v.startsWith('#')) v = '#' + v;
+      if (/^#[0-9a-fA-F]{6}$/.test(v)) {
+        colorEl.value = v;
+        colorHexEl.value = v.toUpperCase();
+      }
+    });
+
     function buildPrompt() {
       const platform = platformEl.value;
       const industry = industryEl.value;
       const style    = styleEl.value;
       const brand    = brandEl.value.trim();
       const topic    = topicEl.value.trim() || 'premium product';
+      const color    = colorEl.value || '#06B6D4';
       const { ratio } = PLATFORMS[platform];
       const styleWords = STYLE_PACKS[style].join(', ');
       const industryWords = INDUSTRY_KEYWORDS[industry].join(', ');
       const brandLine = brand ? `Brand identity: ${brand} integrated subtly into the design. ` : '';
+      const colorLine = `Primary color palette: use ${color} as the main accent color for highlights and CTAs. `;
       return [
         `Ultra-detailed banner design for ${platform}.`,
         `Subject: ${topic}.`,
         `Style: ${styleWords}.`,
         `Industry tone: ${industryWords}.`,
-        `${brandLine}High-resolution marketing banner, sharp focus, professional color grading, visually balanced layout with clear focal point.`,
+        `${brandLine}${colorLine}High-resolution marketing banner, sharp focus, professional color grading, visually balanced layout with clear focal point.`,
         `Aspect ratio --ar ${ratio}. Render-ready for ${platform}.`
       ].join(' ');
     }
