@@ -201,6 +201,11 @@
             <option value="YouTube End Screen">YouTube End Screen</option>
             <option value="Google Business Cover">Google Business Cover</option>
             <option value="WhatsApp Catalog Image">WhatsApp Catalog Image</option>
+            <option value="Facebook Event Cover">Facebook Event Cover</option>
+            <option value="SoundCloud Banner">SoundCloud Banner</option>
+            <option value="Banner Ad (300x250)">Banner Ad (300x250)</option>
+            <option value="Half Page Ad (300x600)">Half Page Ad (300x600)</option>
+            <option value="Website Carousel Slide">Website Carousel Slide</option>
           </select>
         </label>
 
@@ -251,6 +256,11 @@
             <option value="Furniture & Home Decor">Furniture &amp; Home Decor</option>
             <option value="Optical & Eyewear">Optical &amp; Eyewear</option>
             <option value="Drones & Gadgets">Drones &amp; Gadgets</option>
+            <option value="Salon & Spa">Salon &amp; Spa</option>
+            <option value="Toys & Baby Products">Toys &amp; Baby Products</option>
+            <option value="Crafts & Handmade">Crafts &amp; Handmade</option>
+            <option value="Stationery & Office Supplies">Stationery &amp; Office Supplies</option>
+            <option value="Security & Surveillance">Security &amp; Surveillance</option>
           </select>
         </label>
 
@@ -301,6 +311,11 @@
             <option value="Kaleidoscope">Kaleidoscope</option>
             <option value="Embroidery">Embroidery</option>
             <option value="Wireframe Blueprint">Wireframe Blueprint</option>
+            <option value="Stained Glass">Stained Glass</option>
+            <option value="Paper Collage">Paper Collage</option>
+            <option value="Halftone Pop">Halftone Pop</option>
+            <option value="Charcoal Sketch">Charcoal Sketch</option>
+            <option value="Mosaic Tiles">Mosaic Tiles</option>
           </select>
         </label>
 
@@ -441,6 +456,11 @@
       "YouTube End Screen": { ratio: "16:9", note: "1920x1080 end card layout." },
       "Google Business Cover": { ratio: "16:9", note: "Cover photo for local business profile." },
       "WhatsApp Catalog Image": { ratio: "1:1", note: "Square product catalog photo." },
+      "Facebook Event Cover": { ratio: "16:9", note: "Event cover photo 1920x1080." },
+      "SoundCloud Banner":   { ratio: "16:9", note: "Artist profile banner header." },
+      "Banner Ad (300x250)": { ratio: "6:5",  note: "Standard medium rectangle ad." },
+      "Half Page Ad (300x600)": { ratio: "1:2", note: "Tall half-page display ad." },
+      "Website Carousel Slide": { ratio: "16:9", note: "Hero slider / carousel frame." },
     };
 
     const STYLE_PACKS = {
@@ -604,6 +624,26 @@
         "technical wireframe blueprint style", "thin glowing grid lines", "engineering draft aesthetic",
         "blueprint blue background", "labeled product geometry", "precise schematic layout"
       ],
+      "Stained Glass": [
+        "vibrant stained glass style", "segmented colored panes", "thick lead framing",
+        "soft light transmission", "cathedral window colors", "intricate mosaic detail"
+      ],
+      "Paper Collage": [
+        "torn paper collage style", "layered cut-out shapes", "mixed paper textures",
+        "bold color blocking", "handcrafted editorial feel", "playful dimensional layers"
+      ],
+      "Halftone Pop": [
+        "retro halftone pop art", "dotted screen print", "bold CMYK inks",
+        "comic poster shading", "high-contrast graphic look", "vintage advertising charm"
+      ],
+      "Charcoal Sketch": [
+        "dramatic charcoal sketch style", "smudged graphite strokes", "deep shadow blending",
+        "rough textured paper", "expressive hand rendering", "monochrome fine-art depth"
+      ],
+      "Mosaic Tiles": [
+        "ancient mosaic tile style", "small tessellated stones", "grout grid lines",
+        "rich glass tile colors", "ornate geometric patterns", "artisanal classic detail"
+      ],
     };
 
     const INDUSTRY_KEYWORDS = {
@@ -647,6 +687,11 @@
       "Furniture & Home Decor": ["cozy interior styling", "warm material textures", "elegant space composition"],
       "Optical & Eyewear": ["crisp frame product focus", "stylish studio reflections", "fashion-forward clarity"],
       "Drones & Gadgets": ["futuristic tech product vibe", "sleek carbon details", "dynamic aerial energy"],
+      "Salon & Spa": ["serene self-care atmosphere", "soft warm glow", "luxurious relaxation detail"],
+      "Toys & Baby Products": ["gentle playful charm", "soft pastel palette", "safe cozy appeal"],
+      "Crafts & Handmade": ["artisan handmade warmth", "rich material textures", "authentic craft detail"],
+      "Stationery & Office Supplies": ["crisp organized workspace", "clean paper and ink tones", "productive aesthetic"],
+      "Security & Surveillance": ["secure modern tech look", "dark smart-control panels", "safety-first design"],
     };
 
     const platformEl   = document.getElementById('platform');
@@ -676,7 +721,7 @@
       ratioNote.textContent = p.note;
     }
 
-    const SWATCHES = ['#06B6D4', '#A78BFA', '#F43F5E', '#FACC15', '#34D399', '#3B82F6', '#F97316', '#FFFFFF', '#111827'];
+    const SWATCHES = ['#06B6D4', '#A78BFA', '#F43F5E', '#FACC15', '#34D399', '#3B82F6', '#F97316', '#FFFFFF', '#111827', '#EC4899', '#8B5CF6', '#14B8A6', '#EF4444', '#0EA5E9', '#6366F1', '#0F172A'];
     SWATCHES.forEach(c => {
       const btn = document.createElement('button');
       btn.type = 'button';
