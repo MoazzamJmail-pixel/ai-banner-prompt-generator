@@ -126,10 +126,10 @@
           </span>
         </a>
         <div class="flex items-center gap-2">
-          <span class="hidden md:inline-flex items-center gap-2 rounded-full border border-cyan-400/35 bg-cyan-400/10 px-3 py-1.5 text-xs font-head font-semibold text-cyan-300 shadow-[0_0_25px_rgba(6,182,212,0.15)]">
+          <a href="https://digisystem.online" target="_blank" rel="noopener" class="hidden md:inline-flex items-center gap-2 rounded-full border border-cyan-400/35 bg-cyan-400/10 px-3 py-1.5 text-xs font-head font-semibold text-cyan-300 shadow-[0_0_25px_rgba(6,182,212,0.15)] hover:bg-cyan-400/20 transition">
             <span class="pulse-dot"></span>
-            Key by Digi System
-          </span>
+            Powered by DigiSystem
+          </a>
           <span class="hidden sm:inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-400/5 px-3 py-1.5 text-xs font-head font-medium text-emerald-300">
             <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
             Tool Ready
@@ -434,6 +434,36 @@
           </select>
         </label>
 
+        <!-- Target Audience -->
+        <label class="block">
+          <span class="mb-2 flex items-center justify-between text-sm font-head font-semibold text-slate-300">
+            <span>Target Audience</span>
+            <span class="text-[11px] font-medium text-slate-500">Who is this for?</span>
+          </span>
+          <select id="audience" class="w-full rounded-xl border border-white/10 bg-[#16213b]/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition">
+            <option value="General Public" selected>General Public</option>
+            <option value="Gen Z / Teens">Gen Z / Teens</option>
+            <option value="Luxury / High-End Buyers">Luxury / High-End Buyers</option>
+            <option value="Business / B2B">Business / B2B</option>
+            <option value="Bargain Hunters">Bargain Hunters</option>
+          </select>
+        </label>
+
+        <!-- Lighting / Atmosphere -->
+        <label class="block">
+          <span class="mb-2 flex items-center justify-between text-sm font-head font-semibold text-slate-300">
+            <span>Lighting / Atmosphere</span>
+            <span class="text-[11px] font-medium text-slate-500">Mood of the scene</span>
+          </span>
+          <select id="lighting" class="w-full rounded-xl border border-white/10 bg-[#16213b]/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition">
+            <option value="Studio Soft Light" selected>Studio Soft Light</option>
+            <option value="Dramatic Cinematic Light">Dramatic Cinematic Light</option>
+            <option value="Bright Daylight">Bright Daylight</option>
+            <option value="Neon Glow">Neon Glow</option>
+            <option value="Dark & Moody">Dark &amp; Moody</option>
+          </select>
+        </label>
+
         <!-- Brand (optional) -->
         <label class="block">
           <span class="mb-2 flex items-center justify-between text-sm font-head font-semibold text-slate-300">
@@ -452,6 +482,16 @@
           </span>
           <input id="topic" type="text" value="Wireless Gaming Headphones"
             placeholder="e.g. Wireless Gaming Headphones, luxury studio apartment, keto meal box..."
+            class="w-full rounded-xl border border-white/10 bg-[#16213b]/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition placeholder:text-slate-600" />
+        </label>
+
+        <!-- CTA Text -->
+        <label class="block">
+          <span class="mb-2 flex items-center justify-between text-sm font-head font-semibold text-slate-300">
+            <span>Call To Action Text</span>
+            <span class="text-[11px] font-medium text-slate-500">Optional — e.g. Shop Now, 50% OFF</span>
+          </span>
+          <input id="cta" type="text" placeholder="e.g. Shop Now, 50% OFF, Book Today (optional)"
             class="w-full rounded-xl border border-white/10 bg-[#16213b]/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition placeholder:text-slate-600" />
         </label>
 
@@ -968,11 +1008,58 @@
       "Tech Conference": ["sleek tech summit look", "futuristic stage design", "innovation showcase"],
     };
 
+    const TARGET_AUDIENCES = {
+      "General Public": ["broad mainstream appeal", "universally relatable visuals", "mass-market friendly tone"],
+      "Gen Z / Teens": ["trendy Gen-Z energy", "meme-savvy bold colors", "viral social media feel"],
+      "Luxury / High-End Buyers": ["exclusive luxury appeal", "premium minimalist elegance", "aspirational high-end vibe"],
+      "Business / B2B": ["professional B2B tone", "corporate credibility", "data-driven trust visuals"],
+      "Bargain Hunters": ["deal-driven urgency", "savings highlight badges", "value-for-money appeal"],
+    };
+
+    const LIGHTING_PACKS = {
+      "Studio Soft Light": ["soft studio key light", "gentle fill light", "clean diffused shadows"],
+      "Dramatic Cinematic Light": ["dramatic cinematic lighting", "moody chiaroscuro contrast", "film-grade color grading"],
+      "Bright Daylight": ["bright natural daylight", "sunny high-key exposure", "fresh airy brightness"],
+      "Neon Glow": ["electric neon glow lighting", "cyan and magenta rim light", "glowing luminous atmosphere"],
+      "Dark & Moody": ["dark moody ambience", "deep shadows with rim light", "mysterious atmospheric depth"],
+    };
+
+    const CAMERA_ANGLES = [
+      "eye-level shot", "macro close-up", "wide-angle 8k", "low-angle hero shot",
+      "top-down overhead shot", "45-degree dynamic angle", "extreme close-up detail", "high-angle establishing shot"
+    ];
+
+    const COMPOSITIONS = [
+      "rule-of-thirds layout", "centered hero focal point", "diagonal flow composition",
+      "symmetrical balance", "layered depth composition", "framed focal window",
+      "asymmetric editorial grid", "circular spotlight focus"
+    ];
+
+    const DESIGN_EXTRAS = [
+      "premium texture detail", "subtle grain overlay", "soft depth of field",
+      "refined color grading", "crisp vector sharpness", "high dynamic range",
+      "detailed fine art render", "polished advertising finish", "smooth gradient transitions", "elegant negative space"
+    ];
+
+    const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+
+    function pickUnique(arr, n) {
+      const copy = arr.slice();
+      const out = [];
+      while (out.length < n && copy.length) {
+        out.push(copy.splice(Math.floor(Math.random() * copy.length), 1)[0]);
+      }
+      return out;
+    }
+
     const platformEl   = document.getElementById('platform');
     const industryEl   = document.getElementById('industry');
     const styleEl      = document.getElementById('style');
     const occasionEl   = document.getElementById('occasion');
+    const audienceEl   = document.getElementById('audience');
+    const lightingEl   = document.getElementById('lighting');
     const brandEl      = document.getElementById('brand');
+    const ctaEl        = document.getElementById('cta');
     const topicEl      = document.getElementById('topic');
     const colorEl      = document.getElementById('color');
     const colorHexEl   = document.getElementById('colorHex');
@@ -1058,22 +1145,38 @@
       const industry = industryEl.value;
       const style    = styleEl.value;
       const occasion = occasionEl.value;
+      const audience = audienceEl.value;
+      const lighting = lightingEl.value;
       const brand    = brandEl.value.trim();
       const topic    = topicEl.value.trim() || 'premium product';
       const color    = colorEl.value || '#06B6D4';
+      const cta      = ctaEl.value.trim();
       const { ratio } = PLATFORMS[platform] || PLATFORMS['None'];
+
       const styleWords = STYLE_PACKS[style] ? STYLE_PACKS[style].join(', ') : '';
       const industryWords = INDUSTRY_KEYWORDS[industry] ? INDUSTRY_KEYWORDS[industry].join(', ') : '';
       const occasionWords = OCCASION_KEYWORDS[occasion];
+      const audienceWords = TARGET_AUDIENCES[audience].join(', ');
+      const lightWords = LIGHTING_PACKS[lighting].join(', ');
+      const extras = pickUnique(DESIGN_EXTRAS, 2 + Math.floor(Math.random() * 2));
+      const camera = pick(CAMERA_ANGLES);
+      const composition = pick(COMPOSITIONS);
+
       const occasionLine = occasionWords ? `Occasion theme: ${occasionWords.join(', ')}. ` : '';
       const brandLine = brand ? `Brand identity: ${brand} integrated subtly into the design. ` : '';
       const colorLine = `Primary color palette: use ${color} as the main accent color for highlights and CTAs. `;
+      const ctaLine = cta ? `Call to action: bold CTA text "${cta}" placed prominently. ` : '';
+
       return [
         `Ultra-detailed banner design for ${platform === 'None' ? 'a special event' : platform}.`,
         `Subject: ${topic}.`,
         styleWords ? `Style: ${styleWords}.` : null,
         industryWords ? `Industry tone: ${industryWords}.` : null,
-        `${occasionLine}${brandLine}${colorLine}High-resolution marketing banner, sharp focus, professional color grading, visually balanced layout with clear focal point.`,
+        `Target audience: ${audienceWords}.`,
+        `Lighting: ${lightWords}.`,
+        `Camera: ${camera}.`,
+        `Composition: ${composition}, with ${extras.join(', ')}.`,
+        `${occasionLine}${brandLine}${colorLine}${ctaLine}High-resolution marketing banner, sharp focus, professional color grading, visually balanced layout with clear focal point.`,
         `Aspect ratio --ar ${ratio}. Render-ready for the chosen platform or occasion.`
       ].filter(Boolean).join(' ');
     }
