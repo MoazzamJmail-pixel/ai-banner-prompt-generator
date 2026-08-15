@@ -407,9 +407,6 @@
             class="rounded-xl border border-white/10 bg-[#16213b]/60 px-5 py-4 font-head text-sm font-bold uppercase tracking-wider text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-300"
             title="Reset all fields to defaults">Reset</button>
         </div>
-        <p class="text-[11px] text-slate-500">
-          <span class="font-semibold text-purple-300/80">AI Image:</span> press <span class="text-purple-300/80">Generate Image</span> on any prompt card for a real Flux render via Pollinations AI &mdash; free, no API key needed. Generate one at a time &mdash; the engine rate-limits fast requests and retries automatically.
-        </p>
 
         <!-- Output -->
         <section id="outputSection" class="hidden">
@@ -456,14 +453,6 @@
       </div>
       <p class="mt-3">Copy the prompt into Flux, Midjourney or DALL-E 3 to render.</p>
     </footer>
-  </div>
-
-  <!-- Image Modal -->
-  <div id="imgModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 p-4 backdrop-blur-sm">
-    <button id="imgModalClose" type="button" class="absolute right-4 top-4 rounded-full border border-white/10 bg-[#16213b]/80 p-2 text-slate-300 transition hover:text-white" title="Close (Esc)">
-      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-    </button>
-    <img id="imgModalImg" class="max-h-[90vh] max-w-full rounded-xl border border-white/10" alt="AI banner preview full size" />
   </div>
 
   <script>
@@ -692,9 +681,6 @@
     const presetHint   = document.getElementById('presetHint');
     const copyAllBtn   = document.getElementById('copyAllBtn');
     const copyAllLabel = document.getElementById('copyAllLabel');
-    const imgModal     = document.getElementById('imgModal');
-    const imgModalImg  = document.getElementById('imgModalImg');
-    const imgModalClose = document.getElementById('imgModalClose');
 
     const MODEL_CONFIG = {
       flux:       { label: 'Flux',       param: '--aspect' },
@@ -777,76 +763,6 @@
       }
       updateSwatchActive();
     });
-
-    function ratioToPixels(ratio) {
-      const parts = String(ratio).split(':');
-      const w = parseFloat(parts[0]);
-      const h = parseFloat(parts[1]);
-      if (!w || !h) return [1024, 1024];
-      let height = Math.round(1024 * h / w);
-      if (height < 200) height = 200;
-      if (height > 2048) height = 2048;
-      return [1024, height];
-    }
-
-    function promptForImage(text) {
-      return String(text)
-        .replace(/--(?:ar|aspect)\s+[\d.]+:[\d.]+/gi, '')
-        .replace(/--no\s+[^.]*/g, '')
-        .replace(/Final image aspect ratio: [^.]*\./g, '')
-        .replace(/Aspect ratio (?:--ar|--aspect) [^.]*\./g, '')
-        .replace(/Aspect ratio\s*\./g, '')
-        .replace(/Render-ready for the chosen platform\./g, '')
-        .replace(/\s{2,}/g, ' ')
-        .trim()
-        .slice(0, 1200);
-    }
-
-    let imgChain = Promise.resolve();
-    const wait = ms => new Promise(r => setTimeout(r, ms));
-
-    async function fetchWithRetry(urls, attempt) {
-      const url = urls[attempt % urls.length];
-      const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), 60000);
-      let res;
-      try {
-        res = await fetch(url, { signal: ctrl.signal });
-      } catch (e) {
-        clearTimeout(timer);
-        if (attempt >= 4) throw new Error(e && e.name === 'AbortError' ? 'timeout' : 'network');
-        await wait(3000);
-        return fetchWithRetry(urls, attempt + 1);
-      }
-      clearTimeout(timer);
-      if (res.status === 429) {
-        if (attempt >= 4) throw new Error('rate limited');
-        await wait(7000);
-        return fetchWithRetry(urls, attempt + 1);
-      }
-      if (!res.ok) {
-        if (attempt >= 4) throw new Error('http ' + res.status);
-        await wait(3000);
-        return fetchWithRetry(urls, attempt + 1);
-      }
-      const blob = await res.blob();
-      if (!blob.type || blob.type.indexOf('image/') !== 0) {
-        if (attempt >= 4) throw new Error('not an image');
-        await wait(3000);
-        return fetchWithRetry(urls, attempt + 1);
-      }
-      return { url: url, blob: blob };
-    }
-
-    function generateAIImage(promptText, width, height) {
-      const seed = Math.floor(Math.random() * 99999) + 1;
-      const clean = promptForImage(promptText);
-      const enc = encodeURIComponent(clean);
-      const urls = ['flux', 'turbo'].map(m =>
-        'https://image.pollinations.ai/prompt/' + enc + '?width=' + width + '&height=' + height + '&seed=' + seed + '&nologo=true&model=' + m + '&referrer=digibanner'
-      );
-      return fetchWithRetry(urls, 0);
-    }
 
     function buildPrompt() {
       const platform = platformEl.value;
@@ -932,14 +848,6 @@
       cp.className = 'flex items-center gap-1.5 rounded-lg border border-cyan-400/25 bg-cyan-400/10 px-3 py-1.5 text-xs font-head font-semibold text-cyan-300 transition hover:bg-cyan-400/20';
       cp.innerHTML = '<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg> <span class="cp-label">Copy Prompt</span>';
       const cpLabel = cp.querySelector('.cp-label');
-      const ig = document.createElement('button');
-      ig.type = 'button';
-      ig.className = 'flex items-center gap-1.5 rounded-lg border border-purple-400/25 bg-purple-500/10 px-3 py-1.5 text-xs font-head font-semibold text-purple-300 transition hover:bg-purple-500/20';
-      ig.title = 'Generate a real AI image from this prompt (Flux)';
-      ig.innerHTML = '<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M3 20h18M5 4h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg>';
-      const igLabel = document.createElement('span');
-      igLabel.textContent = 'Generate Image';
-      ig.appendChild(igLabel);
       const ta = document.createElement('textarea');
       ta.readOnly = true;
       ta.rows = 8;
@@ -948,84 +856,14 @@
       const meta = document.createElement('p');
       meta.className = 'mt-1 text-right text-[11px] font-medium text-slate-500';
       updateCardMeta(meta, text);
-      const imgArea = document.createElement('div');
-      imgArea.className = 'mt-3 hidden';
-      const imgLoading = document.createElement('div');
-      imgLoading.className = 'flex items-center gap-2 rounded-xl border border-white/10 bg-[#0F172A]/60 px-4 py-3 text-xs text-slate-400';
-      const spin = document.createElement('span');
-      spin.className = 'inline-block h-3.5 w-3.5 rounded-full border-2 border-cyan-400/30 border-t-cyan-400 spin-slow';
-      imgLoading.appendChild(spin);
-      imgLoading.appendChild(document.createTextNode('Generating AI image (Flux)...'));
-      const imgResult = document.createElement('img');
-      imgResult.alt = 'AI generated banner preview';
-      imgResult.className = 'hidden w-full cursor-zoom-in rounded-xl border border-white/10';
-      const imgError = document.createElement('div');
-      imgError.className = 'hidden rounded-xl border border-rose-400/20 bg-rose-500/5 px-4 py-3 text-xs text-rose-300/90';
-      imgError.textContent = 'Could not generate the image. Check your connection and try again.';
-      const imgNote = document.createElement('p');
-      imgNote.className = 'mt-1.5 text-[11px] text-slate-500';
-      const imgLink = document.createElement('a');
-      imgLink.target = '_blank';
-      imgLink.rel = 'noopener';
-      imgLink.className = 'text-cyan-300/90 underline-offset-2 hover:underline';
-      imgLink.textContent = 'Open full size';
-      imgNote.appendChild(document.createTextNode('Flux render via Pollinations AI · '));
-      imgNote.appendChild(imgLink);
-      imgArea.appendChild(imgLoading);
-      imgArea.appendChild(imgResult);
-      imgArea.appendChild(imgError);
-      imgArea.appendChild(imgNote);
       cp.addEventListener('click', () => copyText(text, cp, cpLabel, ta));
       dl.addEventListener('click', () => downloadText(text));
-      ig.addEventListener('click', () => {
-        if (ig.disabled) return;
-        const ratio = PLATFORMS[platformEl.value] ? PLATFORMS[platformEl.value].ratio : '16:9';
-        const size = ratioToPixels(ratio);
-        imgArea.classList.remove('hidden');
-        imgLoading.classList.remove('hidden');
-        imgResult.classList.add('hidden');
-        imgError.classList.add('hidden');
-        ig.disabled = true;
-        igLabel.textContent = 'Generating...';
-        const work = async () => {
-          try {
-            const { url, blob } = await generateAIImage(text, size[0], size[1]);
-            const objUrl = URL.createObjectURL(blob);
-            imgLink.href = url;
-            imgResult.onload = () => {
-              URL.revokeObjectURL(objUrl);
-              imgLoading.classList.add('hidden');
-              imgResult.classList.remove('hidden');
-              ig.disabled = false;
-              igLabel.textContent = 'Regenerate Image';
-            };
-            imgResult.src = objUrl;
-          } catch (err) {
-            ig.disabled = false;
-            igLabel.textContent = 'Generate Image';
-            imgLoading.classList.add('hidden');
-            imgError.classList.remove('hidden');
-            imgError.textContent = err.message === 'timeout'
-              ? 'Image is taking too long (AI queue busy). Try again in a few seconds.'
-              : err.message === 'rate limited'
-                ? 'Too many requests right now. Waiting a few seconds fixes it — try again.'
-                : err.message === 'network'
-                  ? 'Network issue reaching the AI engine. Check your connection and try again.'
-                  : 'Could not generate the image. Try again.';
-          }
-        };
-        imgChain = imgChain.then(work);
-      });
-      imgResult.addEventListener('click', () => openImageModal(imgLink.href));
-      imgLink.addEventListener('click', e => { e.preventDefault(); openImageModal(imgLink.href); });
       actions.appendChild(dl);
-      actions.appendChild(ig);
       actions.appendChild(cp);
       head.appendChild(actions);
       card.appendChild(head);
       card.appendChild(ta);
       card.appendChild(meta);
-      card.appendChild(imgArea);
       return card;
     }
 
@@ -1343,22 +1181,6 @@
       if (!texts.length) return;
       copyText(texts.join('\n\n---\n\n'), copyAllBtn, copyAllLabel, null);
     });
-
-    function openImageModal(src) {
-      if (!src) return;
-      imgModalImg.src = src;
-      imgModal.classList.remove('hidden');
-      imgModal.classList.add('flex');
-    }
-
-    function closeImageModal() {
-      imgModal.classList.add('hidden');
-      imgModal.classList.remove('flex');
-    }
-
-    imgModalClose.addEventListener('click', closeImageModal);
-    imgModal.addEventListener('click', e => { if (e.target === imgModal) closeImageModal(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeImageModal(); });
 
     loadState();
     renderTonePills();
