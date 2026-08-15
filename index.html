@@ -241,32 +241,6 @@
           </select>
         </label>
 
-        <!-- Occasion / Event Theme -->
-        <label class="block">
-          <span class="mb-2 flex items-center justify-between text-sm font-head font-semibold text-slate-300">
-            <span>Occasion / Event Theme</span>
-            <span class="text-[11px] font-medium text-cyan-300/80">Special event? Platform / Industry / Style auto-clear</span>
-          </span>
-          <select id="occasion" class="w-full rounded-xl border border-white/10 bg-[#16213b]/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition">
-            <option value="None (General)">None (General)</option>
-            <option value="Birthday">Birthday</option>
-            <option value="Independence Day">Independence Day</option>
-            <option value="Eid al-Fitr">Eid al-Fitr</option>
-            <option value="Eid al-Adha">Eid al-Adha</option>
-            <option value="Christmas">Christmas</option>
-            <option value="New Year">New Year</option>
-            <option value="Valentine's Day">Valentine's Day</option>
-            <option value="Ramadan">Ramadan</option>
-            <option value="Wedding Anniversary">Wedding Anniversary</option>
-            <option value="Graduation">Graduation</option>
-            <option value="Diwali">Diwali</option>
-            <option value="Holi">Holi</option>
-            <option value="Black Friday Sale">Black Friday Sale</option>
-            <option value="Product Launch">Product Launch</option>
-            <option value="Grand Opening">Grand Opening</option>
-          </select>
-        </label>
-
         <!-- Target Audience -->
         <label class="block">
           <span class="mb-2 flex items-center justify-between text-sm font-head font-semibold text-slate-300">
@@ -405,7 +379,7 @@
 
   <script>
     const PLATFORMS = {
-      "None":               { ratio: "16:9", note: "Free-form design — pick an occasion instead." },
+      "None":               { ratio: "16:9", note: "Free-form design — no fixed platform ratio." },
       "Website Hero Banner": { ratio: "16:9", note: "Wide landing-page hero, landscape." },
       "YouTube Thumbnail":  { ratio: "16:9", note: "1280x720, bold focal point for CTR." },
       "LinkedIn Banner":    { ratio: "4:1",  note: "1584x396, ultra-wide profile banner." },
@@ -535,25 +509,6 @@
       "Healthcare & Wellness": ["calm healing atmosphere", "soft natural palette", "trustworthy medical cleanliness"],
     };
 
-    const OCCASION_KEYWORDS = {
-      "None (General)": null,
-      "Birthday": ["festive birthday celebration", "colorful balloons and confetti", "warm party lighting"],
-      "Independence Day": ["patriotic national celebration", "flag colors and fireworks", "proud festive atmosphere"],
-      "Eid al-Fitr": ["joyful Eid celebration", "crescent moon and lanterns", "elegant Islamic patterns"],
-      "Eid al-Adha": ["sacred Eid celebration", "elegant crescent motifs", "warm festive hospitality"],
-      "Christmas": ["cozy Christmas magic", "warm fairy lights", "festive red and green"],
-      "New Year": ["glittering New Year's Eve", "sparkling fireworks and confetti", "gold and midnight tones"],
-      "Valentine's Day": ["romantic Valentine's mood", "soft hearts and roses", "warm dreamy glow"],
-      "Ramadan": ["peaceful Ramadan atmosphere", "crescent moon and lanterns", "warm spiritual tones"],
-      "Wedding Anniversary": ["elegant anniversary celebration", "golden accents and roses", "romantic timeless styling"],
-      "Graduation": ["proud graduation celebration", "caps and diplomas", "bright hopeful atmosphere"],
-      "Diwali": ["glowing Diwali festival", "diyas and rangoli patterns", "warm golden celebration"],
-      "Holi": ["explosive Holi colors", "vibrant powder bursts", "joyful festive energy"],
-      "Black Friday Sale": ["high-impact sale frenzy", "bold discount badges", "urgent deal energy"],
-      "Product Launch": ["premium launch moment", "spotlight hero product", "anticipation and hype"],
-      "Grand Opening": ["celebratory grand opening", "ribbon cutting flair", "welcoming festive energy"],
-    };
-
     const TARGET_AUDIENCES = {
       "General Public": ["broad mainstream appeal", "universally relatable visuals", "mass-market friendly tone"],
       "Gen Z / Teens": ["trendy Gen-Z energy", "meme-savvy bold colors", "viral social media feel"],
@@ -601,7 +556,6 @@
     const platformEl   = document.getElementById('platform');
     const industryEl   = document.getElementById('industry');
     const styleEl      = document.getElementById('style');
-    const occasionEl   = document.getElementById('occasion');
     const audienceEl   = document.getElementById('audience');
     const lightingEl   = document.getElementById('lighting');
     const brandEl      = document.getElementById('brand');
@@ -630,37 +584,10 @@
       ratioNote.textContent = p.note;
     }
 
-    const savedEventState = { platform: 'Website Hero Banner', industry: 'E-commerce & Retail', style: 'Modern Minimalist', hasSaved: false };
-
-    function syncSpecialEventMode() {
-      const isSpecial = occasionEl.value !== 'None (General)';
-      const els = [platformEl, industryEl, styleEl];
-      if (isSpecial) {
-        if (!savedEventState.hasSaved) {
-          savedEventState.platform = platformEl.value;
-          savedEventState.industry = industryEl.value;
-          savedEventState.style = styleEl.value;
-          savedEventState.hasSaved = true;
-        }
-        els.forEach(el => { el.value = 'None'; el.disabled = true; });
-      } else {
-        els.forEach((el, i) => {
-          if (savedEventState.hasSaved) {
-            el.value = [savedEventState.platform, savedEventState.industry, savedEventState.style][i];
-          }
-          el.disabled = false;
-        });
-        savedEventState.hasSaved = false;
-      }
-      updateRatioHint();
-    }
-
     function resetForm() {
-      savedEventState.hasSaved = false;
       platformEl.value = 'Website Hero Banner';
       industryEl.value = 'E-commerce & Retail';
       styleEl.value = 'Modern Minimalist';
-      occasionEl.value = 'None (General)';
       audienceEl.value = 'General Public';
       lightingEl.value = 'Studio Soft Light';
       brandEl.value = '';
@@ -668,7 +595,6 @@
       ctaEl.value = '';
       colorEl.value = '#06B6D4';
       colorHexEl.value = '#06B6D4';
-      syncSpecialEventMode();
       outputSection.classList.add('hidden');
       generateBtn.disabled = false;
       btnSpinner.classList.add('hidden');
@@ -724,7 +650,6 @@
       const platform = platformEl.value;
       const industry = industryEl.value;
       const style    = styleEl.value;
-      const occasion = occasionEl.value;
       const audience = audienceEl.value;
       const lighting = lightingEl.value;
       const brand    = brandEl.value.trim();
@@ -735,20 +660,18 @@
 
       const styleWords = STYLE_PACKS[style] ? STYLE_PACKS[style].join(', ') : '';
       const industryWords = INDUSTRY_KEYWORDS[industry] ? INDUSTRY_KEYWORDS[industry].join(', ') : '';
-      const occasionWords = OCCASION_KEYWORDS[occasion];
       const audienceWords = TARGET_AUDIENCES[audience].join(', ');
       const lightWords = LIGHTING_PACKS[lighting].join(', ');
       const extras = pickUnique(DESIGN_EXTRAS, 2 + Math.floor(Math.random() * 2));
       const camera = pick(CAMERA_ANGLES);
       const composition = pick(COMPOSITIONS);
 
-      const occasionLine = occasionWords ? `Occasion theme: ${occasionWords.join(', ')}. ` : '';
       const brandLine = brand ? `Brand identity: ${brand} integrated subtly into the design. ` : '';
       const colorLine = `Primary color palette: use ${color} as the main accent color for highlights and CTAs. `;
       const ctaLine = cta ? `Call to action: bold CTA text "${cta}" placed prominently. ` : '';
 
       return [
-        `Ultra-detailed banner design for ${platform !== 'None' ? platform : (occasion !== 'None (General)' ? 'a special event' : 'a custom banner campaign')}.`,
+        `Ultra-detailed banner design for ${platform !== 'None' ? platform : 'a custom banner campaign'}.`,
         `Subject: ${topic}.`,
         styleWords ? `Style: ${styleWords}.` : null,
         industryWords ? `Industry tone: ${industryWords}.` : null,
@@ -756,8 +679,8 @@
         `Lighting: ${lightWords}.`,
         `Camera: ${camera}.`,
         `Composition: ${composition}, with ${extras.join(', ')}.`,
-        `${occasionLine}${brandLine}${colorLine}${ctaLine}High-resolution marketing banner, sharp focus, professional color grading, visually balanced layout with clear focal point.`,
-        `Aspect ratio --ar ${ratio}. Render-ready for the chosen platform or occasion.`
+        `${brandLine}${colorLine}${ctaLine}High-resolution marketing banner, sharp focus, professional color grading, visually balanced layout with clear focal point.`,
+        `Aspect ratio --ar ${ratio}. Render-ready for the chosen platform.`
       ].filter(Boolean).join(' ');
     }
 
@@ -821,11 +744,9 @@
     copyBtn.addEventListener('click', copyPrompt);
     resetBtn.addEventListener('click', resetForm);
     platformEl.addEventListener('change', updateRatioHint);
-    occasionEl.addEventListener('change', syncSpecialEventMode);
     topicEl.addEventListener('keydown', e => { if (e.key === 'Enter') generateBtn.click(); });
 
     updateRatioHint();
-    syncSpecialEventMode();
     updateSwatchActive();
   </script>
 </body>
