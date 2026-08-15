@@ -181,6 +181,11 @@
             <option value="Blog Header">Blog Header</option>
             <option value="Print Poster">Print Poster</option>
             <option value="Trade Show Banner">Trade Show Banner</option>
+            <option value="Google Display Ad">Google Display Ad</option>
+            <option value="Discord Banner">Discord Banner</option>
+            <option value="Spotify Cover">Spotify Cover</option>
+            <option value="Steam Capsule">Steam Capsule</option>
+            <option value="Webinar Cover">Webinar Cover</option>
           </select>
         </label>
 
@@ -211,6 +216,11 @@
             <option value="Legal & Professional">Legal &amp; Professional</option>
             <option value="Logistics & Supply Chain">Logistics &amp; Supply Chain</option>
             <option value="Construction & Interior">Construction &amp; Interior</option>
+            <option value="Photography & Videography">Photography &amp; Videography</option>
+            <option value="Pet Care & Veterinary">Pet Care &amp; Veterinary</option>
+            <option value="Green Energy & Solar">Green Energy &amp; Solar</option>
+            <option value="BPO & Call Center">BPO &amp; Call Center</option>
+            <option value="Nonprofit & NGO">Nonprofit &amp; NGO</option>
           </select>
         </label>
 
@@ -241,6 +251,11 @@
             <option value="Brutalist">Brutalist</option>
             <option value="Editorial Magazine">Editorial Magazine</option>
             <option value="Claymation">Claymation</option>
+            <option value="Comic Book">Comic Book</option>
+            <option value="Art Deco">Art Deco</option>
+            <option value="Glassmorphism">Glassmorphism</option>
+            <option value="VHS Glitch">VHS Glitch</option>
+            <option value="Sticker Pop">Sticker Pop</option>
           </select>
         </label>
 
@@ -346,6 +361,11 @@
       "Blog Header":        { ratio: "16:9", note: "1200x675, featured article image." },
       "Print Poster":       { ratio: "1:1.4", note: "A3 portrait 297x420mm print-ready." },
       "Trade Show Banner":  { ratio: "3:2",  note: "Expo / booth roll-up banner." },
+      "Google Display Ad":  { ratio: "1:1",  note: "Responsive display ad, 300x250 / square." },
+      "Discord Banner":     { ratio: "3:1",  note: "960x540 header for server / profile." },
+      "Spotify Cover":      { ratio: "1:1",  note: "Square playlist / album cover art." },
+      "Steam Capsule":      { ratio: "4:3",  note: "Game capsule header 600x450." },
+      "Webinar Cover":      { ratio: "16:9", note: "1280x720 registration / event cover." },
     };
 
     const STYLE_PACKS = {
@@ -429,6 +449,26 @@
         "handcrafted claymation style", "soft plasticine textures", "warm playful colors",
         "tactile hand-modeled forms", "cozy stop-motion feel", "charming character appeal"
       ],
+      "Comic Book": [
+        "vintage comic book style", "bold ink linework", "halftone dot shading",
+        "dramatic onomatopoeia lettering", "high-contrast primary colors", "superhero panel energy"
+      ],
+      "Art Deco": [
+        "elegant art deco style", "geometric gold symmetry", "luxury 1920s motifs",
+        "sunburst and chevron patterns", "rich emerald and black palette", "glamorous vintage elegance"
+      ],
+      "Glassmorphism": [
+        "modern glassmorphism style", "frosted translucent panels", "vibrant gradient backdrop",
+        "soft glowing bokeh lights", "smooth rounded shapes", "clean contemporary UI look"
+      ],
+      "VHS Glitch": [
+        "retro VHS glitch aesthetic", "tracking distortion effects", "chromatic aberration",
+        "scanlines and static noise", "faded 80s camcorder tones", "lo-fi analog texture"
+      ],
+      "Sticker Pop": [
+        "bold sticker pop art style", "thick white outlines", "bright glossy colors",
+        "die-cut sticker shapes", "playful cartoon energy", "collectible kawaii charm"
+      ],
     };
 
     const INDUSTRY_KEYWORDS = {
@@ -452,6 +492,11 @@
       "Legal & Professional": ["authoritative professional tone", "crisp navy suits of the industry", "confident structured layout"],
       "Logistics & Supply Chain": ["global shipping vibe", "clean warehouse and route visuals", "efficient tech-driven tone"],
       "Construction & Interior": ["architectural blueprint feel", "modern material textures", "premium fit-and-finish detail"],
+      "Photography & Videography": ["crisp lens-sharp imagery", "cinematic lighting setups", "pro gear aesthetic"],
+      "Pet Care & Veterinary": ["warm pet-friendly charm", "soft playful colors", "caring trustworthy tone"],
+      "Green Energy & Solar": ["clean eco-friendly look", "fresh green and sky palette", "sustainable innovation vibe"],
+      "BPO & Call Center": ["professional support vibe", "modern headset motifs", "efficient service tone"],
+      "Nonprofit & NGO": ["heartwarming humanitarian tone", "hopeful warm lighting", "community-driven storytelling"],
     };
 
     const platformEl   = document.getElementById('platform');
