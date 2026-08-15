@@ -171,6 +171,23 @@
           <div id="templateChips" class="flex flex-wrap gap-2"></div>
         </div>
 
+        <!-- Live Preview -->
+        <div>
+          <span class="mb-2 flex items-center justify-between text-sm font-head font-semibold text-slate-300">
+            <span>Live Preview</span>
+            <span id="previewMeta" class="text-[11px] font-medium text-cyan-300/80">16:9 · Wide landscape</span>
+          </span>
+          <div class="flex h-56 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-[#0F172A]/80 sm:h-64">
+            <div id="previewCanvas" class="relative my-auto rounded-xl shadow-2xl" style="aspect-ratio: 16 / 9;">
+              <div id="previewInner" class="flex h-full w-full flex-col items-center justify-center gap-1 overflow-hidden rounded-xl p-3 text-center sm:gap-2 sm:p-4">
+                <span id="previewTag" class="rounded-full px-3 py-1 text-[10px] font-head font-bold uppercase tracking-widest"></span>
+                <span id="previewTitle" class="font-head text-base font-extrabold leading-tight sm:text-2xl"></span>
+                <span id="previewCta" class="rounded-lg px-4 py-1.5 text-xs font-head font-bold"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Platform -->
         <label class="block">
           <span class="mb-2 flex items-center justify-between text-sm font-head font-semibold text-slate-300">
@@ -341,6 +358,15 @@
           </div>
         </label>
 
+        <!-- Variations -->
+        <div class="flex items-center justify-between gap-3">
+          <span class="text-sm font-head font-semibold text-slate-300">Prompt Variations</span>
+          <div class="inline-flex rounded-lg border border-white/10 bg-[#16213b]/60 p-1">
+            <button type="button" id="varOneBtn" class="rounded-md px-3 py-1 text-xs font-head font-bold transition bg-cyan-400/20 text-cyan-300">1</button>
+            <button type="button" id="varThreeBtn" class="rounded-md px-3 py-1 text-xs font-head font-bold transition text-slate-400 hover:text-slate-200">3</button>
+          </div>
+        </div>
+
         <!-- Generate -->
         <div class="flex gap-3">
           <button id="shuffleBtn" type="button"
@@ -364,29 +390,7 @@
         <!-- Output -->
         <section id="outputSection" class="hidden">
           <div class="grid gap-4 sm:grid-cols-3 sm:items-start">
-            <div class="sm:col-span-2">
-              <div class="mb-2 flex items-center justify-between">
-                <span class="text-sm font-head font-semibold text-slate-300">Generated Prompt</span>
-                <div class="flex items-center gap-2">
-                  <button id="downloadBtn" class="flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#16213b]/60 px-3 py-1.5 text-xs font-head font-semibold text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-300" title="Download as .txt">
-                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" />
-                    </svg>
-                    Download
-                  </button>
-                  <button id="copyBtn" class="flex items-center gap-1.5 rounded-lg border border-cyan-400/25 bg-cyan-400/10 px-3 py-1.5 text-xs font-head font-semibold text-cyan-300 hover:bg-cyan-400/20 transition">
-                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                      <rect x="9" y="9" width="13" height="13" rx="2"></rect>
-                      <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
-                    </svg>
-                    <span id="copyLabel">Copy Prompt</span>
-                  </button>
-                </div>
-              </div>
-              <textarea id="promptOutput" readonly rows="8"
-                class="w-full resize-none rounded-xl border border-white/10 bg-[#0F172A]/90 p-4 font-mono text-[12.5px] leading-relaxed text-cyan-100/90 outline-none focus:border-cyan-400/50 transition"></textarea>
-              <p id="promptMeta" class="mt-1 text-right text-[11px] font-medium text-slate-500"></p>
-            </div>
+            <div id="promptCards" class="grid gap-4 sm:col-span-2"></div>
             <aside class="glass rounded-xl p-4">
               <p class="text-xs font-head font-bold uppercase tracking-widest text-cyan-300/90">Aspect Ratio Guide</p>
               <p id="ratioBox" class="mt-2 text-2xl font-extrabold text-white font-head">—</p>
@@ -615,17 +619,21 @@
     const btnLabel     = document.getElementById('btnLabel');
     const btnSpinner   = document.getElementById('btnSpinner');
     const outputSection= document.getElementById('outputSection');
-    const promptOutput = document.getElementById('promptOutput');
-    const copyBtn      = document.getElementById('copyBtn');
-    const copyLabel    = document.getElementById('copyLabel');
-    const promptMeta   = document.getElementById('promptMeta');
+    const promptCards  = document.getElementById('promptCards');
+    const varOneBtn    = document.getElementById('varOneBtn');
+    const varThreeBtn  = document.getElementById('varThreeBtn');
+    const previewCanvas= document.getElementById('previewCanvas');
+    const previewInner = document.getElementById('previewInner');
+    const previewTag   = document.getElementById('previewTag');
+    const previewTitle = document.getElementById('previewTitle');
+    const previewCta   = document.getElementById('previewCta');
+    const previewMeta  = document.getElementById('previewMeta');
     const ratioBox     = document.getElementById('ratioBox');
     const ratioNote    = document.getElementById('ratioNote');
     const platformRatioHint = document.getElementById('platformRatioHint');
     const modelEl      = document.getElementById('model');
     const templateChips = document.getElementById('templateChips');
     const shuffleBtn   = document.getElementById('shuffleBtn');
-    const downloadBtn  = document.getElementById('downloadBtn');
     const modelToken   = document.getElementById('modelToken');
     const historyWrap  = document.getElementById('historyWrap');
     const historyBox   = document.getElementById('historyBox');
@@ -662,6 +670,7 @@
       btnSpinner.classList.add('hidden');
       btnLabel.textContent = 'Generate Prompt';
       saveState();
+      updatePreview();
     }
 
     const SWATCHES = [
@@ -750,78 +759,182 @@
       ].filter(Boolean).join(' ');
     }
 
-    async function typePrompt(text) {
-      promptOutput.value = '';
-      promptOutput.scrollTop = 0;
-      const step = 6;
-      for (let i = 0; i <= text.length; i += step) {
-        promptOutput.value = text.slice(0, i);
-        promptOutput.scrollTop = promptOutput.scrollHeight;
-        await new Promise(r => setTimeout(r, 6));
-      }
-      promptOutput.value = text;
-      updatePromptMeta();
+    function shade(hex, pct) {
+      const n = parseInt(hex.slice(1), 16);
+      const amt = Math.round(2.55 * pct);
+      const r = Math.min(255, Math.max(0, (n >> 16) + amt));
+      const g = Math.min(255, Math.max(0, ((n >> 8) & 0xff) + amt));
+      const b = Math.min(255, Math.max(0, (n & 0xff) + amt));
+      return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
     }
 
-    function updatePromptMeta() {
-      const t = promptOutput.value;
-      promptMeta.textContent = t
-        ? `${t.length.toLocaleString()} characters · ${t.trim().split(/\s+/).length} words`
+    function luminance(hex) {
+      const n = parseInt(hex.slice(1), 16);
+      const r = (n >> 16) / 255;
+      const g = ((n >> 8) & 0xff) / 255;
+      const b = (n & 0xff) / 255;
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    }
+
+    function updatePreview() {
+      const p = PLATFORMS[platformEl.value] || PLATFORMS['None'];
+      previewCanvas.style.aspectRatio = p.ratio.replace(':', ' / ');
+      previewCanvas.style.height = '100%';
+      previewCanvas.style.maxWidth = '100%';
+      const color = colorEl.value || '#06B6D4';
+      previewInner.style.background = 'linear-gradient(135deg, ' + color + ' 0%, ' + shade(color, -32) + ' 100%)';
+      const txt = luminance(color) > 0.55 ? '#0F172A' : '#FFFFFF';
+      previewTitle.textContent = topicEl.value.trim() || 'Your product here';
+      previewTitle.style.color = txt;
+      previewTag.textContent = (brandEl.value.trim() || 'DIGISYSTEM').toUpperCase();
+      previewTag.style.color = txt;
+      previewTag.style.background = txt + '22';
+      previewTag.style.border = '1px solid ' + txt + '55';
+      previewCta.textContent = ctaEl.value.trim() || 'Learn More';
+      previewCta.style.background = txt;
+      previewCta.style.color = color;
+      previewMeta.textContent = p.ratio + ' · ' + p.note;
+    }
+
+    let variationCount = 1;
+
+    function setVariation(n) {
+      variationCount = n;
+      varOneBtn.className = 'rounded-md px-3 py-1 text-xs font-head font-bold transition ' + (n === 1 ? 'bg-cyan-400/20 text-cyan-300' : 'text-slate-400 hover:text-slate-200');
+      varThreeBtn.className = 'rounded-md px-3 py-1 text-xs font-head font-bold transition ' + (n === 3 ? 'bg-cyan-400/20 text-cyan-300' : 'text-slate-400 hover:text-slate-200');
+    }
+
+    function buildCard(text, index, total) {
+      const card = document.createElement('div');
+      card.className = 'rounded-xl border border-white/10 bg-[#16213b]/50 p-4';
+      const head = document.createElement('div');
+      head.className = 'mb-2 flex items-center justify-between gap-2';
+      const title = document.createElement('span');
+      title.className = 'text-sm font-head font-semibold text-slate-300';
+      title.textContent = total > 1 ? 'Variation ' + (index + 1) + ' of ' + total : 'Generated Prompt';
+      head.appendChild(title);
+      const actions = document.createElement('div');
+      actions.className = 'flex items-center gap-2';
+      const dl = document.createElement('button');
+      dl.type = 'button';
+      dl.className = 'flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#16213b]/60 px-3 py-1.5 text-xs font-head font-semibold text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-300';
+      dl.title = 'Download as .txt';
+      dl.innerHTML = '<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"/></svg> Download';
+      const cp = document.createElement('button');
+      cp.type = 'button';
+      cp.className = 'flex items-center gap-1.5 rounded-lg border border-cyan-400/25 bg-cyan-400/10 px-3 py-1.5 text-xs font-head font-semibold text-cyan-300 transition hover:bg-cyan-400/20';
+      cp.innerHTML = '<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg> <span class="cp-label">Copy Prompt</span>';
+      const cpLabel = cp.querySelector('.cp-label');
+      const ta = document.createElement('textarea');
+      ta.readOnly = true;
+      ta.rows = 8;
+      ta.value = text;
+      ta.className = 'w-full resize-none rounded-xl border border-white/10 bg-[#0F172A]/90 p-4 font-mono text-[12.5px] leading-relaxed text-cyan-100/90 outline-none focus:border-cyan-400/50 transition';
+      const meta = document.createElement('p');
+      meta.className = 'mt-1 text-right text-[11px] font-medium text-slate-500';
+      updateCardMeta(meta, text);
+      cp.addEventListener('click', () => copyText(text, cp, cpLabel, ta));
+      dl.addEventListener('click', () => downloadText(text));
+      actions.appendChild(dl);
+      actions.appendChild(cp);
+      head.appendChild(actions);
+      card.appendChild(head);
+      card.appendChild(ta);
+      card.appendChild(meta);
+      return card;
+    }
+
+    function renderCards(texts) {
+      promptCards.innerHTML = '';
+      const cards = texts.map((t, i) => buildCard(t, i, texts.length));
+      cards.forEach(c => promptCards.appendChild(c));
+      return cards;
+    }
+
+    function updateCardMeta(meta, text) {
+      meta.textContent = text
+        ? text.length.toLocaleString() + ' characters · ' + text.trim().split(/\s+/).length + ' words'
         : '';
     }
 
-    function copyPrompt() {
-      if (!promptOutput.value) return;
+    async function typeInto(ta, text) {
+      ta.value = '';
+      ta.scrollTop = 0;
+      const step = 6;
+      for (let i = 0; i <= text.length; i += step) {
+        ta.value = text.slice(0, i);
+        ta.scrollTop = ta.scrollHeight;
+        await new Promise(r => setTimeout(r, 6));
+      }
+      ta.value = text;
+    }
+
+    async function typeCards(cards, texts) {
+      await Promise.all(cards.map((c, i) => typeInto(c.querySelector('textarea'), texts[i])));
+    }
+
+    function copyText(text, btn, label, ta) {
+      if (!text) return;
       const done = () => {
-        copyLabel.textContent = 'Copied!';
-        copyBtn.classList.add('border-emerald-400/50', 'text-emerald-300');
+        label.textContent = 'Copied!';
+        btn.classList.add('border-emerald-400/50', 'text-emerald-300');
         setTimeout(() => {
-          copyLabel.textContent = 'Copy Prompt';
-          copyBtn.classList.remove('border-emerald-400/50', 'text-emerald-300');
+          label.textContent = 'Copy Prompt';
+          btn.classList.remove('border-emerald-400/50', 'text-emerald-300');
         }, 1800);
       };
       if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(promptOutput.value).then(done).catch(() => fallbackCopy(done));
+        navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(ta, done));
       } else {
-        fallbackCopy(done);
+        fallbackCopy(ta, done);
       }
     }
 
-    function fallbackCopy(done) {
-      promptOutput.select();
-      promptOutput.setSelectionRange(0, promptOutput.value.length);
-      try { document.execCommand('copy'); done(); } catch (e) { prompt('Press Ctrl+C to copy:', promptOutput.value); }
+    function fallbackCopy(ta, done) {
+      ta.select();
+      ta.setSelectionRange(0, ta.value.length);
+      try { document.execCommand('copy'); done(); } catch (e) { prompt('Press Ctrl+C to copy:', ta.value); }
     }
 
-    generateBtn.addEventListener('click', async () => {
-      const text = buildPrompt();
-      generateBtn.disabled = true;
-      btnSpinner.classList.remove('hidden');
-      btnLabel.textContent = 'Generating...';
-      await new Promise(r => setTimeout(r, 450));
-      outputSection.classList.remove('hidden');
-      await typePrompt(text);
-      pushHistory(text);
-      generateBtn.disabled = false;
-      btnSpinner.classList.add('hidden');
-      btnLabel.textContent = 'Regenerate Prompt';
-      outputSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    });
-
-    copyBtn.addEventListener('click', copyPrompt);
-    downloadBtn.addEventListener('click', () => {
-      if (!promptOutput.value) return;
-      const blob = new Blob([promptOutput.value], { type: 'text/plain' });
+    function downloadText(text) {
+      if (!text) return;
+      const blob = new Blob([text], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
       a.download = 'digi-banner-prompt.txt';
       a.click();
       URL.revokeObjectURL(url);
+    }
+
+    function loadPrompt(text) {
+      renderCards([text]);
+      outputSection.classList.remove('hidden');
+      outputSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    generateBtn.addEventListener('click', async () => {
+      const texts = [];
+      for (let i = 0; i < variationCount; i++) texts.push(buildPrompt());
+      generateBtn.disabled = true;
+      btnSpinner.classList.remove('hidden');
+      btnLabel.textContent = 'Generating...';
+      await new Promise(r => setTimeout(r, 450));
+      outputSection.classList.remove('hidden');
+      const cards = renderCards(texts);
+      await typeCards(cards, texts);
+      texts.forEach(pushHistory);
+      generateBtn.disabled = false;
+      btnSpinner.classList.add('hidden');
+      btnLabel.textContent = variationCount > 1 ? 'Regenerate 3 Prompts' : 'Regenerate Prompt';
+      outputSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
+
+    varOneBtn.addEventListener('click', () => setVariation(1));
+    varThreeBtn.addEventListener('click', () => setVariation(3));
     resetBtn.addEventListener('click', resetForm);
-    platformEl.addEventListener('change', updateRatioHint);
-    modelEl.addEventListener('change', updateRatioHint);
+    platformEl.addEventListener('change', () => { updateRatioHint(); updatePreview(); });
+    modelEl.addEventListener('change', () => { updateRatioHint(); updatePreview(); });
     topicEl.addEventListener('keydown', e => { if (e.key === 'Enter') generateBtn.click(); });
     document.addEventListener('keydown', e => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); generateBtn.click(); }
@@ -862,9 +975,15 @@
       } catch (e) {}
     }
 
-    [platformEl, industryEl, styleEl, audienceEl, lightingEl].forEach(el => el.addEventListener('change', saveState));
-    [brandEl, topicEl, ctaEl, colorHexEl].forEach(el => el.addEventListener('input', saveState));
-    colorEl.addEventListener('input', saveState);
+    [platformEl, industryEl, styleEl, audienceEl, lightingEl].forEach(el => {
+      el.addEventListener('change', saveState);
+      el.addEventListener('change', updatePreview);
+    });
+    [brandEl, topicEl, ctaEl, colorHexEl].forEach(el => {
+      el.addEventListener('input', saveState);
+      el.addEventListener('input', updatePreview);
+    });
+    colorEl.addEventListener('input', () => { saveState(); updatePreview(); });
 
     let promptHistory = [];
     try { promptHistory = JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; } catch (e) {}
@@ -883,12 +1002,7 @@
         num.textContent = (i + 1) + '. ';
         b.appendChild(num);
         b.appendChild(document.createTextNode(first.length > 110 ? first.slice(0, 110) + '…' : first));
-        b.addEventListener('click', () => {
-          promptOutput.value = t;
-          updatePromptMeta();
-          outputSection.classList.remove('hidden');
-          outputSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        });
+        b.addEventListener('click', () => loadPrompt(t));
         historyBox.appendChild(b);
       });
     }
@@ -915,7 +1029,7 @@
       const c = pick(SWATCHES);
       colorEl.value = c;
       colorHexEl.value = c;
-      updateRatioHint(); updateSwatchActive(); saveState();
+      updateRatioHint(); updateSwatchActive(); saveState(); updatePreview();
     });
 
     const TEMPLATES = [
@@ -935,7 +1049,7 @@
           platformEl.value = t.platform; industryEl.value = t.industry; styleEl.value = t.style;
           audienceEl.value = t.audience; lightingEl.value = t.lighting;
           topicEl.value = t.topic; ctaEl.value = t.cta;
-          updateRatioHint(); saveState();
+          updateRatioHint(); saveState(); updatePreview();
           generateBtn.click();
         });
         templateChips.appendChild(b);
@@ -947,6 +1061,8 @@
     renderHistory();
     updateRatioHint();
     updateSwatchActive();
+    updatePreview();
+    setVariation(1);
   </script>
 </body>
 </html>
