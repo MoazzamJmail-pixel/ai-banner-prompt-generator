@@ -171,6 +171,44 @@
           <div id="templateChips" class="flex flex-wrap gap-2"></div>
         </div>
 
+        <!-- Tone & Detail Level -->
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div>
+            <span class="mb-2 flex items-center justify-between text-sm font-head font-semibold text-slate-300">
+              <span>Tone</span>
+              <span class="text-[11px] font-medium text-slate-500">Copy voice &amp; mood</span>
+            </span>
+            <div id="tonePills" class="flex flex-wrap gap-2"></div>
+          </div>
+          <div>
+            <span class="mb-2 flex items-center justify-between text-sm font-head font-semibold text-slate-300">
+              <span>Detail Level</span>
+              <span class="text-[11px] font-medium text-slate-500">Prompt verbosity</span>
+            </span>
+            <div id="detailPills" class="flex flex-wrap gap-2"></div>
+          </div>
+        </div>
+
+        <!-- Negative Prompt -->
+        <label class="block">
+          <span class="mb-2 flex items-center justify-between text-sm font-head font-semibold text-slate-300">
+            <span>Negative Prompt / Avoid</span>
+            <span class="text-[11px] font-medium text-slate-500">Auto-adapted per model</span>
+          </span>
+          <input id="avoid" type="text" placeholder="e.g. blurry, low quality, watermark, spelling errors (optional)"
+            class="w-full rounded-xl border border-white/10 bg-[#16213b]/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition placeholder:text-slate-600" />
+        </label>
+
+        <!-- Custom Presets -->
+        <div>
+          <div class="mb-2 flex items-center justify-between">
+            <span class="text-sm font-head font-semibold text-slate-300">Custom Presets</span>
+            <button id="savePresetBtn" type="button" class="rounded-lg border border-purple-400/25 bg-purple-500/10 px-3 py-1.5 text-xs font-head font-semibold text-purple-300 transition hover:bg-purple-500/20">Save Current</button>
+          </div>
+          <div id="presetChips" class="flex flex-wrap gap-2"></div>
+          <p id="presetHint" class="mt-2 text-[11px] text-slate-500">Save your favourite combinations and reload them with one click.</p>
+        </div>
+
         <!-- Platform -->
         <label class="block">
           <span class="mb-2 flex items-center justify-between text-sm font-head font-semibold text-slate-300">
@@ -372,6 +410,13 @@
 
         <!-- Output -->
         <section id="outputSection" class="hidden">
+          <div class="mb-3 flex items-center justify-between gap-2">
+            <span class="text-xs font-head font-bold uppercase tracking-widest text-slate-400">Generated Prompts</span>
+            <button id="copyAllBtn" type="button" class="flex items-center gap-1.5 rounded-lg border border-cyan-400/25 bg-cyan-400/10 px-3 py-1.5 text-xs font-head font-semibold text-cyan-300 transition hover:bg-cyan-400/20">
+              <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg>
+              <span id="copyAllLabel">Copy All</span>
+            </button>
+          </div>
           <div class="grid gap-4 sm:grid-cols-3 sm:items-start">
             <div id="promptCards" class="grid gap-4 sm:col-span-2"></div>
             <aside class="glass rounded-xl p-4">
@@ -558,6 +603,19 @@
       "Dark & Moody": ["dark moody ambience", "deep shadows with rim light", "mysterious atmospheric depth"],
     };
 
+    const TONE_PACKS = {
+      "Professional": ["confident", "authoritative", "clean corporate tone", "trust-building"],
+      "Playful": ["playful", "energetic", "fun", "youthful upbeat tone", "whimsical"],
+      "Luxury": ["opulent", "exclusive", "refined", "prestigious premium tone"],
+      "Bold": ["bold", "aggressive", "high-impact", "dominating attention", "powerful"],
+    };
+
+    const DETAIL_LEVELS = {
+      "Compact": { extras: 1, extra: '' },
+      "Balanced": { extras: 2, extra: '' },
+      "Ultra-Detailed": { extras: 4, extra: 'Maximum fidelity: intricate micro-textures, crisp edges, ultra-sharp rendering. ' },
+    };
+
     const CAMERA_ANGLES = [
       "eye-level shot", "macro close-up", "wide-angle 8k", "low-angle hero shot",
       "top-down overhead shot", "45-degree dynamic angle", "extreme close-up detail", "high-angle establishing shot"
@@ -615,6 +673,14 @@
     const historyWrap  = document.getElementById('historyWrap');
     const historyBox   = document.getElementById('historyBox');
     const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+    const tonePills    = document.getElementById('tonePills');
+    const detailPills  = document.getElementById('detailPills');
+    const avoidEl      = document.getElementById('avoid');
+    const savePresetBtn = document.getElementById('savePresetBtn');
+    const presetChips  = document.getElementById('presetChips');
+    const presetHint   = document.getElementById('presetHint');
+    const copyAllBtn   = document.getElementById('copyAllBtn');
+    const copyAllLabel = document.getElementById('copyAllLabel');
 
     const MODEL_CONFIG = {
       flux:       { label: 'Flux',       param: '--aspect' },
@@ -640,6 +706,10 @@
       brandEl.value = '';
       topicEl.value = 'Wireless Gaming Headphones';
       ctaEl.value = '';
+      avoidEl.value = '';
+      toneVal = 'Professional';
+      detailVal = 'Balanced';
+      renderTonePills(); renderDetailPills();
       colorEl.value = '#06B6D4';
       colorHexEl.value = '#06B6D4';
       outputSection.classList.add('hidden');
@@ -706,14 +776,27 @@
       const cta      = ctaEl.value.trim();
       const model    = modelEl.value;
       const { ratio } = PLATFORMS[platform] || PLATFORMS['None'];
+      const detail = DETAIL_LEVELS[detailVal] || DETAIL_LEVELS['Balanced'];
 
       const styleWords = STYLE_PACKS[style] ? STYLE_PACKS[style].join(', ') : '';
       const industryWords = INDUSTRY_KEYWORDS[industry] ? INDUSTRY_KEYWORDS[industry].join(', ') : '';
       const audienceWords = TARGET_AUDIENCES[audience].join(', ');
       const lightWords = LIGHTING_PACKS[lighting].join(', ');
-      const extras = pickUnique(DESIGN_EXTRAS, 2 + Math.floor(Math.random() * 2));
+      const toneWords = TONE_PACKS[toneVal] ? TONE_PACKS[toneVal].join(', ') : '';
+      const extras = pickUnique(DESIGN_EXTRAS, detail.extras);
       const camera = pick(CAMERA_ANGLES);
       const composition = pick(COMPOSITIONS);
+
+      const avoidInput = avoidEl.value.trim();
+      let avoidLine = '';
+      if (avoidInput) {
+        const items = avoidInput.split(',').map(s => s.trim()).filter(Boolean).join(', ');
+        if (items) {
+          if (model === 'flux') avoidLine = ` avoid: ${items}.`;
+          else if (model === 'midjourney') avoidLine = ` --no ${items}`;
+          else avoidLine = ` without ${items}.`;
+        }
+      }
 
       const brandLine = brand ? `Brand identity: ${brand} integrated subtly into the design. ` : '';
       const colorLine = `Primary color palette: use ${color} as the main accent color for highlights and CTAs. `;
@@ -723,12 +806,13 @@
         `Ultra-detailed banner design for ${platform !== 'None' ? platform : 'a custom banner campaign'}.`,
         `Subject: ${topic}.`,
         styleWords ? `Style: ${styleWords}.` : null,
+        toneWords ? `Tone: ${toneWords}.` : null,
         industryWords ? `Industry tone: ${industryWords}.` : null,
         `Target audience: ${audienceWords}.`,
         `Lighting: ${lightWords}.`,
         `Camera: ${camera}.`,
         `Composition: ${composition}, with ${extras.join(', ')}.`,
-        `${brandLine}${colorLine}${ctaLine}High-resolution marketing banner, sharp focus, professional color grading, visually balanced layout with clear focal point.`,
+        `${brandLine}${colorLine}${ctaLine}High-resolution marketing banner, sharp focus, professional color grading, visually balanced layout with clear focal point. ${detail.extra}${avoidLine}`,
         model === 'dalle'
           ? `Final image aspect ratio: ${ratio}. Render-ready for the chosen platform.`
           : `Aspect ratio ${MODEL_CONFIG[model].param} ${ratio}. Render-ready for the chosen platform.`
@@ -814,25 +898,33 @@
 
     function copyText(text, btn, label, ta) {
       if (!text) return;
+      const original = label.textContent;
       const done = () => {
         label.textContent = 'Copied!';
         btn.classList.add('border-emerald-400/50', 'text-emerald-300');
         setTimeout(() => {
-          label.textContent = 'Copy Prompt';
+          label.textContent = original;
           btn.classList.remove('border-emerald-400/50', 'text-emerald-300');
         }, 1800);
       };
       if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(ta, done));
+        navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
       } else {
-        fallbackCopy(ta, done);
+        fallbackCopy(text, done);
       }
     }
 
-    function fallbackCopy(ta, done) {
-      ta.select();
-      ta.setSelectionRange(0, ta.value.length);
-      try { document.execCommand('copy'); done(); } catch (e) { prompt('Press Ctrl+C to copy:', ta.value); }
+    function fallbackCopy(text, done) {
+      const tmp = document.createElement('textarea');
+      tmp.value = text;
+      tmp.style.position = 'fixed';
+      tmp.style.top = '0';
+      tmp.style.opacity = '0';
+      document.body.appendChild(tmp);
+      tmp.select();
+      tmp.setSelectionRange(0, tmp.value.length);
+      try { document.execCommand('copy'); done(); } catch (e) { prompt('Press Ctrl+C to copy:', text); }
+      document.body.removeChild(tmp);
     }
 
     function downloadText(text) {
@@ -887,6 +979,7 @@
         model: modelEl.value, platform: platformEl.value, industry: industryEl.value,
         style: styleEl.value, audience: audienceEl.value, lighting: lightingEl.value,
         brand: brandEl.value, topic: topicEl.value, cta: ctaEl.value, color: colorEl.value,
+        avoid: avoidEl.value, tone: toneVal, detail: detailVal,
       };
     }
 
@@ -907,6 +1000,9 @@
         if (typeof s.brand === 'string') brandEl.value = s.brand;
         if (typeof s.topic === 'string') topicEl.value = s.topic;
         if (typeof s.cta === 'string') ctaEl.value = s.cta;
+        if (typeof s.avoid === 'string') avoidEl.value = s.avoid;
+        if (TONE_PACKS[s.tone]) toneVal = s.tone;
+        if (DETAIL_LEVELS[s.detail]) detailVal = s.detail;
         if (s.color && /^#[0-9a-fA-F]{6}$/.test(s.color)) {
           colorEl.value = s.color;
           colorHexEl.value = s.color.toUpperCase();
@@ -915,7 +1011,7 @@
     }
 
     [platformEl, industryEl, styleEl, audienceEl, lightingEl].forEach(el => el.addEventListener('change', saveState));
-    [brandEl, topicEl, ctaEl, colorHexEl].forEach(el => el.addEventListener('input', saveState));
+    [brandEl, topicEl, ctaEl, colorHexEl, avoidEl].forEach(el => el.addEventListener('input', saveState));
     colorEl.addEventListener('input', saveState);
 
     let promptHistory = [];
@@ -959,6 +1055,9 @@
       styleEl.value = pick(opts(STYLE_PACKS));
       audienceEl.value = pick(opts(TARGET_AUDIENCES));
       lightingEl.value = pick(opts(LIGHTING_PACKS));
+      toneVal = pick(TONES);
+      detailVal = pick(DETAILS);
+      renderTonePills(); renderDetailPills();
       const c = pick(SWATCHES);
       colorEl.value = c;
       colorHexEl.value = c;
@@ -989,7 +1088,104 @@
       });
     }
 
+    const TONES = ['Professional', 'Playful', 'Luxury', 'Bold'];
+    const DETAILS = ['Compact', 'Balanced', 'Ultra-Detailed'];
+    let toneVal = 'Professional';
+    let detailVal = 'Balanced';
+
+    function pillBtn(label, active) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = label;
+      b.className = 'rounded-full border px-4 py-1.5 text-xs font-head font-semibold transition ' + (active ? 'border-cyan-400/60 bg-cyan-400/15 text-cyan-300' : 'border-white/10 bg-[#16213b]/60 text-slate-300 hover:border-cyan-400/40 hover:text-cyan-200');
+      return b;
+    }
+
+    function renderPills(container, options, getVal, setVal) {
+      container.innerHTML = '';
+      options.forEach(o => {
+        const b = pillBtn(o, getVal() === o);
+        b.addEventListener('click', () => { setVal(o); saveState(); renderPills(container, options, getVal, setVal); });
+        container.appendChild(b);
+      });
+    }
+
+    function renderTonePills() { renderPills(tonePills, TONES, () => toneVal, v => { toneVal = v; }); }
+    function renderDetailPills() { renderPills(detailPills, DETAILS, () => detailVal, v => { detailVal = v; }); }
+
+    const PRESET_KEY = 'digibanner_presets_v1';
+    let presets = [];
+    try { presets = JSON.parse(localStorage.getItem(PRESET_KEY)) || []; } catch (e) {}
+
+    savePresetBtn.addEventListener('click', () => {
+      const name = prompt('Preset name:');
+      if (!name) return;
+      const preset = collectState();
+      preset.name = name.trim();
+      presets = [preset, ...presets.filter(p => p.name !== preset.name)].slice(0, 12);
+      try { localStorage.setItem(PRESET_KEY, JSON.stringify(presets)); } catch (e) {}
+      renderPresets();
+    });
+
+    function applyPreset(p) {
+      if (MODEL_CONFIG[p.model]) modelEl.value = p.model;
+      if (PLATFORMS[p.platform]) platformEl.value = p.platform;
+      if (INDUSTRY_KEYWORDS[p.industry]) industryEl.value = p.industry;
+      if (STYLE_PACKS[p.style]) styleEl.value = p.style;
+      if (TARGET_AUDIENCES[p.audience]) audienceEl.value = p.audience;
+      if (LIGHTING_PACKS[p.lighting]) lightingEl.value = p.lighting;
+      if (typeof p.brand === 'string') brandEl.value = p.brand;
+      if (typeof p.topic === 'string') topicEl.value = p.topic;
+      if (typeof p.cta === 'string') ctaEl.value = p.cta;
+      if (typeof p.avoid === 'string') avoidEl.value = p.avoid;
+      if (TONE_PACKS[p.tone]) toneVal = p.tone;
+      if (DETAIL_LEVELS[p.detail]) detailVal = p.detail;
+      if (p.color && /^#[0-9a-fA-F]{6}$/.test(p.color)) {
+        colorEl.value = p.color;
+        colorHexEl.value = p.color.toUpperCase();
+      }
+      renderTonePills(); renderDetailPills();
+      updateRatioHint(); updateSwatchActive(); saveState();
+    }
+
+    function renderPresets() {
+      presetChips.innerHTML = '';
+      presetHint.classList.toggle('hidden', presets.length > 0);
+      presets.forEach(p => {
+        const wrap = document.createElement('span');
+        wrap.className = 'inline-flex items-center gap-1 rounded-full border border-white/10 bg-[#16213b]/60 pl-3 pr-1.5 py-1 text-xs font-head font-semibold text-slate-300';
+        const load = document.createElement('button');
+        load.type = 'button';
+        load.textContent = p.name;
+        load.title = 'Load preset';
+        load.className = 'transition hover:text-cyan-200';
+        load.addEventListener('click', () => applyPreset(p));
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.textContent = '×';
+        del.title = 'Delete preset';
+        del.className = 'ml-1 h-4 w-4 rounded-full bg-white/5 text-slate-500 leading-none transition hover:bg-rose-500/20 hover:text-rose-300';
+        del.addEventListener('click', () => {
+          presets = presets.filter(x => x !== p);
+          try { localStorage.setItem(PRESET_KEY, JSON.stringify(presets)); } catch (e) {}
+          renderPresets();
+        });
+        wrap.appendChild(load);
+        wrap.appendChild(del);
+        presetChips.appendChild(wrap);
+      });
+    }
+
+    copyAllBtn.addEventListener('click', () => {
+      const texts = Array.from(promptCards.querySelectorAll('textarea')).map(t => t.value).filter(Boolean);
+      if (!texts.length) return;
+      copyText(texts.join('\n\n---\n\n'), copyAllBtn, copyAllLabel, null);
+    });
+
     loadState();
+    renderTonePills();
+    renderDetailPills();
+    renderPresets();
     renderTemplates();
     renderHistory();
     updateRatioHint();
