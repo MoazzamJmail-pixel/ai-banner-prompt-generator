@@ -432,14 +432,6 @@
             <option value="Music Festival">Music Festival</option>
             <option value="Tech Conference">Tech Conference</option>
           </select>
-          <div id="vibeInline" class="hidden mt-3 flex items-center gap-3 rounded-xl border border-cyan-400/25 bg-cyan-400/5 px-3 py-2.5">
-            <span id="vibeEmoji" class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-white/5 text-lg ring-1 ring-white/10">✨</span>
-            <div class="min-w-0 flex-1">
-              <p id="vibeTitle" class="font-head text-sm font-bold text-white leading-tight">Festive Party</p>
-              <p id="vibeDesc" class="mt-0.5 text-[11px] leading-snug text-slate-400 truncate">Colorful balloons, confetti and warm celebration light.</p>
-            </div>
-            <span id="vibeColors" class="h-2 w-16 shrink-0 rounded-full ring-1 ring-white/10"></span>
-          </div>
         </label>
 
         <!-- Target Audience -->
@@ -1082,78 +1074,6 @@
       return out;
     }
 
-    const OCCASION_VIBES = {
-      "Birthday": { title: "Festive Party", emoji: "🎂", desc: "Colorful balloons, confetti and warm celebration light.", colors: ["#F43F5E", "#FACC15", "#A78BFA"] },
-      "Independence Day": { title: "Patriotic Pride", emoji: "🇵🇰", desc: "Flag colors, fireworks and proud national spirit.", colors: ["#01411C", "#046A38", "#8DC8E8"] },
-      "Eid al-Fitr": { title: "Joyful Eid", emoji: "🌙", desc: "Crescent moons, lanterns and warm festive hospitality.", colors: ["#0EA5E9", "#FACC15", "#047857"] },
-      "Eid al-Adha": { title: "Sacred Celebration", emoji: "🕋", desc: "Elegant crescent motifs and warm festive hospitality.", colors: ["#047857", "#FACC15", "#0F766E"] },
-      "Christmas": { title: "Cozy Christmas", emoji: "🎄", desc: "Fairy lights, snow and festive red & green.", colors: ["#DC2626", "#16A34A", "#F8FAFC"] },
-      "New Year": { title: "Glittering New Year", emoji: "🎆", desc: "Fireworks, gold midnight sparkle and fresh beginnings.", colors: ["#F59E0B", "#111827", "#F8FAFC"] },
-      "Valentine's Day": { title: "Romantic Love", emoji: "💝", desc: "Hearts, roses and a warm dreamy glow.", colors: ["#F43F5E", "#FB7185", "#F8FAFC"] },
-      "Ramadan": { title: "Peaceful Ramadan", emoji: "🕌", desc: "Crescent moons, lanterns and spiritual calm.", colors: ["#0D9488", "#FACC15", "#134E4A"] },
-      "Wedding Anniversary": { title: "Timeless Romance", emoji: "💍", desc: "Golden accents, roses and elegant celebration.", colors: ["#B45309", "#F43F5E", "#0F172A"] },
-      "Graduation": { title: "Proud Achievement", emoji: "🎓", desc: "Caps, diplomas and a bright hopeful future.", colors: ["#2563EB", "#FACC15", "#334155"] },
-      "Mother's Day": { title: "Warm Hearts", emoji: "🌷", desc: "Floral elegance and loving pastel tones.", colors: ["#F472B6", "#A78BFA", "#FDF2F8"] },
-      "Father's Day": { title: "Hero Dad", emoji: "👔", desc: "Classic, heartfelt appreciation for dad.", colors: ["#334155", "#0EA5E9", "#94A3B8"] },
-      "Halloween": { title: "Spooky Night", emoji: "🎃", desc: "Pumpkins, bats and moody orange & purple.", colors: ["#EA580C", "#7C3AED", "#111827"] },
-      "Thanksgiving": { title: "Harvest Gratitude", emoji: "🦃", desc: "Autumn harvest tones and cozy family warmth.", colors: ["#B45309", "#92400E", "#FDE68A"] },
-      "Republic Day": { title: "National Pride", emoji: "🇮🇳", desc: "Tricolor accents and grand patriotic ceremony.", colors: ["#FF9933", "#FFFFFF", "#138808"] },
-      "Labour Day": { title: "Workers' Tribute", emoji: "🛠️", desc: "Respect for hard work and clean professional energy.", colors: ["#DC2626", "#334155", "#F8FAFC"] },
-      "Teachers' Day": { title: "Gratitude to Gurus", emoji: "📚", desc: "Classroom nostalgia and appreciation.", colors: ["#A16207", "#FACC15", "#92400E"] },
-      "Diwali": { title: "Festival of Lights", emoji: "🪔", desc: "Diyas, rangoli and warm golden celebration.", colors: ["#F59E0B", "#F43F5E", "#7C2D12"] },
-      "Holi": { title: "Color Explosion", emoji: "🌈", desc: "Vibrant powder bursts and joyful energy.", colors: ["#F43F5E", "#22C55E", "#3B82F6"] },
-      "Black Friday Sale": { title: "Sale Frenzy", emoji: "🛍️", desc: "High-impact deals and urgent energy.", colors: ["#111827", "#EF4444", "#FACC15"] },
-      "Cyber Monday Sale": { title: "Digital Rush", emoji: "💻", desc: "Flash deals and fast checkout energy.", colors: ["#0EA5E9", "#111827", "#22D3EE"] },
-      "Summer Sale": { title: "Sunny Deals", emoji: "☀️", desc: "Bright summer promo and vacation vibe.", colors: ["#FACC15", "#FB923C", "#22C55E"] },
-      "Winter Sale": { title: "Cozy Winter", emoji: "❄️", desc: "Snow, frost and warm seasonal deals.", colors: ["#7DD3FC", "#F8FAFC", "#38BDF8"] },
-      "Clearance Sale": { title: "Final Clearance", emoji: "🏷️", desc: "Last chance urgency with bold price tags.", colors: ["#DC2626", "#FACC15", "#111827"] },
-      "Product Launch": { title: "Big Reveal", emoji: "🚀", desc: "Spotlight moment, hype and anticipation.", colors: ["#06B6D4", "#A78BFA", "#0F172A"] },
-      "Grand Opening": { title: "Grand Opening", emoji: "🎊", desc: "Ribbon-cutting celebration and welcome.", colors: ["#F59E0B", "#22C55E", "#F8FAFC"] },
-      "Company Anniversary": { title: "Milestone Pride", emoji: "🏆", desc: "Gold tones and confident brand celebration.", colors: ["#B45309", "#334155", "#F8FAFC"] },
-      "Women's Day": { title: "Empowered & Elegant", emoji: "🌸", desc: "Elegant floral accents and confident warmth.", colors: ["#EC4899", "#F472B6", "#A78BFA"] },
-      "Children's Day": { title: "Happy Kids", emoji: "🧒", desc: "Candy colors and playful youthful joy.", colors: ["#FACC15", "#22C55E", "#60A5FA"] },
-      "Baby Shower": { title: "Soft & Sweet", emoji: "🍼", desc: "Pastel balloons and gentle warm glow.", colors: ["#F9A8D4", "#A5F3FC", "#BBF7D0"] },
-      "Farewell Party": { title: "Golden Goodbye", emoji: "👋", desc: "Warm farewell with golden memories.", colors: ["#F59E0B", "#64748B", "#0F172A"] },
-      "Housewarming": { title: "Welcome Home", emoji: "🏡", desc: "Cozy home details and new beginnings.", colors: ["#92400E", "#F59E0B", "#14532D"] },
-      "Music Festival": { title: "Electric Beats", emoji: "🎶", desc: "Stage lights, crowds and vibrant energy.", colors: ["#D946EF", "#22D3EE", "#FACC15"] },
-      "Tech Conference": { title: "Future Tech", emoji: "🤖", desc: "Sleek summit look and innovation showcase.", colors: ["#0EA5E9", "#8B5CF6", "#0F172A"] },
-    };
-
-    function getVibe() {
-      const occ = OCCASION_VIBES[occasionEl.value];
-      if (occ) return occ;
-      const styleName = styleEl.value === 'None' ? 'General Studio' : styleEl.value;
-      const c = colorEl.value || '#06B6D4';
-      return {
-        title: styleName + ' Vibe',
-        emoji: '✨',
-        desc: (styleName === 'General Studio' ? 'Clean and adaptable' : styleName) + ' look with a ' + lightingEl.value.toLowerCase() + ' atmosphere.',
-        colors: [c, '#A78BFA', '#0F172A']
-      };
-    }
-
-    function hexToRgba(hex, a) {
-      const h = hex.replace('#', '');
-      const n = parseInt(h, 16);
-      return 'rgba(' + ((n >> 16) & 255) + ', ' + ((n >> 8) & 255) + ', ' + (n & 255) + ', ' + a + ')';
-    }
-
-    function renderVibe() {
-      const v = getVibe();
-      const isOccasion = occasionEl.value !== 'None (General)';
-      vibeInline.classList.toggle('hidden', !isOccasion);
-      if (isOccasion) {
-        vibeEmoji.textContent = v.emoji;
-        vibeTitle.textContent = v.title;
-        vibeDesc.textContent = v.desc;
-        vibeDesc.title = v.desc;
-        vibeColors.style.background = 'linear-gradient(90deg, ' + v.colors.join(', ') + ')';
-      }
-      document.body.style.background =
-        'radial-gradient(1100px 700px at 85% -10%, ' + hexToRgba(v.colors[0], 0.18) + ', transparent 60%),' +
-        'radial-gradient(900px 650px at 5% 110%, ' + hexToRgba(v.colors[1], 0.14) + ', transparent 60%), #0F172A';
-    }
-
     const platformEl   = document.getElementById('platform');
     const industryEl   = document.getElementById('industry');
     const styleEl      = document.getElementById('style');
@@ -1177,11 +1097,6 @@
     const ratioBox     = document.getElementById('ratioBox');
     const ratioNote    = document.getElementById('ratioNote');
     const platformRatioHint = document.getElementById('platformRatioHint');
-    const vibeInline   = document.getElementById('vibeInline');
-    const vibeEmoji    = document.getElementById('vibeEmoji');
-    const vibeTitle    = document.getElementById('vibeTitle');
-    const vibeDesc     = document.getElementById('vibeDesc');
-    const vibeColors   = document.getElementById('vibeColors');
 
     function updateRatioHint() {
       const p = PLATFORMS[platformEl.value] || PLATFORMS['None'];
@@ -1342,12 +1257,10 @@
     copyBtn.addEventListener('click', copyPrompt);
     platformEl.addEventListener('change', updateRatioHint);
     occasionEl.addEventListener('change', syncSpecialEventMode);
-    [occasionEl, styleEl, lightingEl, colorEl, colorHexEl].forEach(el => el.addEventListener('change', renderVibe));
     topicEl.addEventListener('keydown', e => { if (e.key === 'Enter') generateBtn.click(); });
 
     updateRatioHint();
     syncSpecialEventMode();
-    renderVibe();
   </script>
 </body>
 </html>
