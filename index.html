@@ -206,6 +206,16 @@
             <option value="Banner Ad (300x250)">Banner Ad (300x250)</option>
             <option value="Half Page Ad (300x600)">Half Page Ad (300x600)</option>
             <option value="Website Carousel Slide">Website Carousel Slide</option>
+            <option value="Instagram Carousel Post">Instagram Carousel Post</option>
+            <option value="Shopify Collection Banner">Shopify Collection Banner</option>
+            <option value="Fiverr Gig Image">Fiverr Gig Image</option>
+            <option value="Menu Card">Menu Card</option>
+            <option value="Flyer">Flyer</option>
+            <option value="Billboard">Billboard</option>
+            <option value="Business Card">Business Card</option>
+            <option value="Kick Banner">Kick Banner</option>
+            <option value="Dribbble Shot">Dribbble Shot</option>
+            <option value="Patreon Cover">Patreon Cover</option>
           </select>
         </label>
 
@@ -261,6 +271,16 @@
             <option value="Crafts & Handmade">Crafts &amp; Handmade</option>
             <option value="Stationery & Office Supplies">Stationery &amp; Office Supplies</option>
             <option value="Security & Surveillance">Security &amp; Surveillance</option>
+            <option value="Agriculture & Farming">Agriculture &amp; Farming</option>
+            <option value="Electronics & Appliances">Electronics &amp; Appliances</option>
+            <option value="Printing & Packaging">Printing &amp; Packaging</option>
+            <option value="Sports Equipment">Sports Equipment</option>
+            <option value="Watches">Watches</option>
+            <option value="Beverage & Juices">Beverage &amp; Juices</option>
+            <option value="Insurance">Insurance</option>
+            <option value="Telecom & Networking">Telecom &amp; Networking</option>
+            <option value="Auto Parts & Spares">Auto Parts &amp; Spares</option>
+            <option value="Textile & Clothing">Textile &amp; Clothing</option>
           </select>
         </label>
 
@@ -316,6 +336,16 @@
             <option value="Halftone Pop">Halftone Pop</option>
             <option value="Charcoal Sketch">Charcoal Sketch</option>
             <option value="Mosaic Tiles">Mosaic Tiles</option>
+            <option value="Steampunk">Steampunk</option>
+            <option value="Fantasy Realism">Fantasy Realism</option>
+            <option value="Impressionist">Impressionist</option>
+            <option value="Gothic Dark">Gothic Dark</option>
+            <option value="Futuristic HUD">Futuristic HUD</option>
+            <option value="Vaporwave">Vaporwave</option>
+            <option value="Bauhaus">Bauhaus</option>
+            <option value="Swiss Design">Swiss Design</option>
+            <option value="Retro Space Age">Retro Space Age</option>
+            <option value="Bokeh Photography">Bokeh Photography</option>
           </select>
         </label>
 
@@ -461,6 +491,16 @@
       "Banner Ad (300x250)": { ratio: "6:5",  note: "Standard medium rectangle ad." },
       "Half Page Ad (300x600)": { ratio: "1:2", note: "Tall half-page display ad." },
       "Website Carousel Slide": { ratio: "16:9", note: "Hero slider / carousel frame." },
+      "Instagram Carousel Post": { ratio: "4:5", note: "Multi-image feed carousel card." },
+      "Shopify Collection Banner": { ratio: "4:1", note: "Wide collection page hero." },
+      "Fiverr Gig Image":    { ratio: "1:1",  note: "Square gig thumbnail 1280x1280." },
+      "Menu Card":           { ratio: "4:5",  note: "Restaurant / cafe menu layout." },
+      "Flyer":               { ratio: "4:5",  note: "Promotional flyer / leaflet." },
+      "Billboard":           { ratio: "3:1",  note: "Outdoor billboard design." },
+      "Business Card":       { ratio: "1:1.6", note: "Front/back business card art." },
+      "Kick Banner":         { ratio: "16:9", note: "Kick streaming profile banner." },
+      "Dribbble Shot":       { ratio: "4:3",  note: "Design portfolio showcase shot." },
+      "Patreon Cover":       { ratio: "16:9", note: "Creator profile cover image." },
     };
 
     const STYLE_PACKS = {
@@ -644,6 +684,46 @@
         "ancient mosaic tile style", "small tessellated stones", "grout grid lines",
         "rich glass tile colors", "ornate geometric patterns", "artisanal classic detail"
       ],
+      "Steampunk": [
+        "steampunk machinery style", "brass copper gears", "vintage industrial steam",
+        "riveted metal panels", "warm sepia lighting", "retro-futuristic invention"
+      ],
+      "Fantasy Realism": [
+        "epic fantasy realism", "majestic magical lighting", "mythical creatures and ruins",
+        "painterly cinematic detail", "rich atmospheric depth", "legendary hero scale"
+      ],
+      "Impressionist": [
+        "impressionist painting style", "visible loose brushwork", "soft dappled light",
+        "vibrant broken color", "plein-air freshness", "romantic soft focus"
+      ],
+      "Gothic Dark": [
+        "gothic dark aesthetic", "ornate cathedral motifs", "deep shadow and candlelight",
+        "dramatic chiaroscuro", "mysterious elegant mood", "carved stone detail"
+      ],
+      "Futuristic HUD": [
+        "sci-fi HUD interface style", "glowing telemetry panels", "digital readouts and reticles",
+        "angular holographic frames", "dark tech background", "high-tech data overlay"
+      ],
+      "Vaporwave": [
+        "vaporwave aesthetic", "pastel sunset gradients", "Greek statues and grids",
+        "chrome palm glitches", "retro computer window", "dreamy nostalgic digital vibe"
+      ],
+      "Bauhaus": [
+        "bauhaus design style", "primary color geometry", "bold minimal shapes",
+        "modernist grid layout", "functional clean typography", "iconic 1920s art school"
+      ],
+      "Swiss Design": [
+        "swiss international style", "strict grid typography", "bold sans-serif hierarchy",
+        "red and black accents", "asymmetric clean layout", "rational editorial precision"
+      ],
+      "Retro Space Age": [
+        "retro space age style", "1950s optimistic futurism", "chrome and pastel accents",
+        "rocket and satellite motifs", "googie architecture curves", "vintage sci-fi charm"
+      ],
+      "Bokeh Photography": [
+        "dreamy bokeh photography", "soft blurred light circles", "shallow depth of field",
+        "glowing festive lights", "smooth creamy background", "elegant cinematic framing"
+      ],
     };
 
     const INDUSTRY_KEYWORDS = {
@@ -692,6 +772,16 @@
       "Crafts & Handmade": ["artisan handmade warmth", "rich material textures", "authentic craft detail"],
       "Stationery & Office Supplies": ["crisp organized workspace", "clean paper and ink tones", "productive aesthetic"],
       "Security & Surveillance": ["secure modern tech look", "dark smart-control panels", "safety-first design"],
+      "Agriculture & Farming": ["fresh field growth feel", "earthy natural palette", "rustic authentic charm"],
+      "Electronics & Appliances": ["sleek modern gadget look", "glossy surface reflections", "tech-driven precision"],
+      "Printing & Packaging": ["vivid print color output", "clean package mockup", "production-ready detail"],
+      "Sports Equipment": ["athletic performance feel", "dynamic motion energy", "durable strong build"],
+      "Watches": ["precision timepiece detail", "elegant metallic finish", "luxury craftsmanship"],
+      "Beverage & Juices": ["refreshing drink appeal", "bright juicy colors", "cool condensation detail"],
+      "Insurance": ["protective reassuring tone", "clean shield motifs", "dependable stability feel"],
+      "Telecom & Networking": ["connected network vibe", "clean data flow visuals", "reliable speed promise"],
+      "Auto Parts & Spares": ["precise mechanical detail", "industrial durability", "performance engine feel"],
+      "Textile & Clothing": ["rich fabric texture", "tailored fashion detail", "premium garment feel"],
     };
 
     const platformEl   = document.getElementById('platform');
