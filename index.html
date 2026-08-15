@@ -76,9 +76,7 @@
     <header class="sticky top-0 z-20 pt-4 pb-2">
       <div class="glass neon-ring rounded-2xl px-5 py-3 flex items-center justify-between gap-4">
         <div class="flex items-center gap-3">
-          <div class="h-9 w-9 rounded-xl bg-gradient-to-br from-cyan-400 via-purple-500 to-rose-500 grid place-items-center font-extrabold text-white shadow-lg glow-purple">
-            D
-          </div>
+          <img src="Digi System Logo.png" alt="Digi System Logo" class="h-10 w-10 rounded-xl object-cover shadow-lg glow-purple ring-1 ring-white/10" />
           <div>
             <p class="text-sm sm:text-base font-bold text-white leading-tight">DigiSystem AI Tools</p>
             <p class="text-[11px] sm:text-xs text-cyan-300/80 font-medium tracking-wide uppercase">Digi Banner</p>
@@ -138,6 +136,11 @@
             <option value="Twitter / X Header">Twitter / X Header</option>
             <option value="Email Header Banner">Email Header Banner</option>
             <option value="Event Banner">Event Banner</option>
+            <option value="Pinterest Pin">Pinterest Pin</option>
+            <option value="YouTube Channel Art">YouTube Channel Art</option>
+            <option value="Twitch Banner">Twitch Banner</option>
+            <option value="Podcast Cover">Podcast Cover</option>
+            <option value="WhatsApp Status">WhatsApp Status</option>
           </select>
         </label>
 
@@ -158,6 +161,11 @@
             <option value="Travel & Hospitality">Travel &amp; Hospitality</option>
             <option value="Finance & Banking">Finance &amp; Banking</option>
             <option value="Automotive">Automotive</option>
+            <option value="Education & Coaching">Education &amp; Coaching</option>
+            <option value="Crypto & Web3">Crypto &amp; Web3</option>
+            <option value="Healthcare & Wellness">Healthcare &amp; Wellness</option>
+            <option value="Fashion & Apparel">Fashion &amp; Apparel</option>
+            <option value="SaaS & Software">SaaS &amp; Software</option>
           </select>
         </label>
 
@@ -178,6 +186,11 @@
             <option value="Flat Illustration">Flat Illustration</option>
             <option value="Isometric">Isometric</option>
             <option value="Cinematic">Cinematic</option>
+            <option value="Synthwave Retro">Synthwave Retro</option>
+            <option value="Watercolor Artistic">Watercolor Artistic</option>
+            <option value="Cartoon / Anime">Cartoon / Anime</option>
+            <option value="Abstract Gradient">Abstract Gradient</option>
+            <option value="Paper Cutout">Paper Cutout</option>
           </select>
         </label>
 
@@ -236,7 +249,17 @@
     </main>
 
     <footer class="mt-10 text-center text-xs text-slate-600">
-      <span class="font-semibold text-slate-300">Digi Banner</span> by <span class="font-semibold text-purple-300">DigiSystem AI Tools</span> &middot; Copy the prompt into Flux, Midjourney or DALL-E 3 to render.
+      <div class="mb-2 flex items-center justify-center gap-2">
+        <img src="Digi System Logo.png" alt="Digi System Logo" class="h-6 w-6 rounded-md object-cover ring-1 ring-white/10" />
+        <span class="font-semibold text-slate-300">Digi Banner</span>
+        <span class="text-slate-500">&middot;</span>
+        <span class="font-semibold text-purple-300">DigiSystem AI Tools</span>
+      </div>
+      <span class="inline-flex items-center gap-1.5 rounded-full border border-purple-400/20 bg-purple-500/5 px-3 py-1 font-semibold text-purple-300/90">
+        <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.1 5.9L20 10l-5.9 2.1L12 18l-2.1-5.9L4 10l5.9-2.1z"/></svg>
+        Key by Digi System
+      </span>
+      <p class="mt-2">Copy the prompt into Flux, Midjourney or DALL-E 3 to render.</p>
     </footer>
   </div>
 
@@ -252,6 +275,11 @@
       "Twitter / X Header": { ratio: "3:1",  note: "1500x500, profile header banner." },
       "Email Header Banner":{ ratio: "16:9", note: "600x337 approx, email campaign header." },
       "Event Banner":       { ratio: "3:1",  note: "1500x500, webinar / event promo banner." },
+      "Pinterest Pin":      { ratio: "2:3",  note: "1000x1500, vertical inspiration pin." },
+      "YouTube Channel Art":{ ratio: "16:9", note: "2560x1440, channel banner art." },
+      "Twitch Banner":      { ratio: "3:1",  note: "1200x480, streaming channel banner." },
+      "Podcast Cover":      { ratio: "1:1",  note: "3000x3000, square episode artwork." },
+      "WhatsApp Status":    { ratio: "9:16", note: "1080x1920, vertical status update." },
     };
 
     const STYLE_PACKS = {
@@ -295,6 +323,26 @@
         "cinematic film look", "moody dramatic lighting", "deep shadows and soft highlights",
         "shallow depth of field", "epic composition", "film grain and color grade"
       ],
+      "Synthwave Retro": [
+        "retro synthwave style", "80s neon sunset palette", "chrome and grid horizon",
+        "palm silhouettes and scanlines", "glowing outline art", "nostalgic sci-fi vibe"
+      ],
+      "Watercolor Artistic": [
+        "soft watercolor painting", "delicate color washes", "hand-painted texture",
+        "organic paper grain", "gentle artistic blur", "elegant fine-art feel"
+      ],
+      "Cartoon / Anime": [
+        "vibrant anime illustration", "clean bold lineart", "expressive character design",
+        "bright saturated colors", "cel shading style", "playful dynamic energy"
+      ],
+      "Abstract Gradient": [
+        "smooth abstract gradient", "liquid color blend", "flowing organic shapes",
+        "saturated modern palette", "depth and glow", "hypnotic visual flow"
+      ],
+      "Paper Cutout": [
+        "layered paper cutout art", "tactile folded edges", "soft drop shadows",
+        "pastel color layers", "handmade craft feel", "playful dimensional depth"
+      ],
     };
 
     const INDUSTRY_KEYWORDS = {
@@ -308,6 +356,11 @@
       "Travel & Hospitality": ["breathtaking travel scenery", "golden hour warm light", "inviting destination vibe"],
       "Finance & Banking": ["trustworthy financial look", "clean data-driven visuals", "premium corporate accents"],
       "Automotive": ["sleek automotive design", "dynamic motion blur", "showroom studio lighting"],
+      "Education & Coaching": ["bright learning atmosphere", "inspiring motivational tone", "clean infographic-friendly layout"],
+      "Crypto & Web3": ["futuristic blockchain vibe", "digital grid patterns", "crypto coin and chart motifs"],
+      "Healthcare & Wellness": ["calm healing atmosphere", "soft natural palette", "trustworthy medical cleanliness"],
+      "Fashion & Apparel": ["high-fashion editorial look", "runway studio lighting", "stylish fabric and texture detail"],
+      "SaaS & Software": ["modern SaaS aesthetic", "clean UI panel motifs", "scalable data-driven design"],
     };
 
     const platformEl   = document.getElementById('platform');
