@@ -101,6 +101,14 @@
     @keyframes blink { 50% { opacity: 0; } }
     .spin-slow { animation: spin 1.2s linear infinite; }
     select option { background: #16213b; color: #E2E8F0; }
+    .swatch-btn {
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 2px 6px rgba(2, 8, 23, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .swatch-btn.swatch-active {
+      box-shadow: 0 0 0 2px #22d3ee, 0 0 12px rgba(34, 211, 238, 0.5);
+      border-color: #22d3ee;
+    }
   </style>
 </head>
 <body class="min-h-screen font-body text-slate-200 antialiased selection:bg-cyan-500/30">
@@ -160,8 +168,9 @@
             <span>Platform</span>
             <span class="text-[11px] font-medium text-cyan-300/80" id="platformRatioHint">Aspect Ratio: —</span>
           </span>
-          <select id="platform" class="w-full rounded-xl border border-white/10 bg-[#16213b]/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition">
-            <option value="Website Hero Banner">Website Hero Banner</option>
+          <select id="platform" class="w-full rounded-xl border border-white/10 bg-[#16213b]/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition disabled:cursor-not-allowed disabled:opacity-40">
+            <option value="None">None (Optional)</option>
+            <option value="Website Hero Banner" selected>Website Hero Banner</option>
             <option value="YouTube Thumbnail">YouTube Thumbnail</option>
             <option value="LinkedIn Banner">LinkedIn Banner</option>
             <option value="E-commerce Product Ad">E-commerce Product Ad</option>
@@ -235,8 +244,9 @@
             <span>Industry</span>
             <span class="text-[11px] font-medium text-slate-500">Niche-aware language</span>
           </span>
-          <select id="industry" class="w-full rounded-xl border border-white/10 bg-[#16213b]/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition">
-            <option value="E-commerce & Retail">E-commerce &amp; Retail</option>
+          <select id="industry" class="w-full rounded-xl border border-white/10 bg-[#16213b]/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition disabled:cursor-not-allowed disabled:opacity-40">
+            <option value="None">None (Optional)</option>
+            <option value="E-commerce & Retail" selected>E-commerce &amp; Retail</option>
             <option value="Agency & Tech">Agency &amp; Tech</option>
             <option value="Fitness & Health">Fitness &amp; Health</option>
             <option value="Real Estate">Real Estate</option>
@@ -310,8 +320,9 @@
             <span>Visual Style</span>
             <span class="text-[11px] font-medium text-slate-500">Model-friendly style pack</span>
           </span>
-          <select id="style" class="w-full rounded-xl border border-white/10 bg-[#16213b]/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition">
-            <option value="Modern Minimalist">Modern Minimalist</option>            <option value="Cyberpunk & Neon">Cyberpunk &amp; Neon</option>
+          <select id="style" class="w-full rounded-xl border border-white/10 bg-[#16213b]/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition disabled:cursor-not-allowed disabled:opacity-40">
+            <option value="None">None (Optional)</option>
+            <option value="Modern Minimalist" selected>Modern Minimalist</option>            <option value="Cyberpunk & Neon">Cyberpunk &amp; Neon</option>
             <option value="Corporate Professional">Corporate Professional</option>
             <option value="Bold & Energetic">Bold &amp; Energetic</option>
             <option value="3D Render">3D Render</option>
@@ -382,7 +393,7 @@
         <label class="block">
           <span class="mb-2 flex items-center justify-between text-sm font-head font-semibold text-slate-300">
             <span>Occasion / Event Theme</span>
-            <span class="text-[11px] font-medium text-slate-500">Optional</span>
+            <span class="text-[11px] font-medium text-cyan-300/80">Special event? Platform / Industry / Style auto-clear</span>
           </span>
           <select id="occasion" class="w-full rounded-xl border border-white/10 bg-[#16213b]/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition">
             <option value="None (General)">None (General)</option>
@@ -520,6 +531,7 @@
 
   <script>
     const PLATFORMS = {
+      "None":               { ratio: "16:9", note: "Free-form design — pick an occasion instead." },
       "Website Hero Banner": { ratio: "16:9", note: "Wide landing-page hero, landscape." },
       "YouTube Thumbnail":  { ratio: "16:9", note: "1280x720, bold focal point for CTR." },
       "LinkedIn Banner":    { ratio: "4:1",  note: "1584x396, ultra-wide profile banner." },
@@ -978,14 +990,26 @@
     const platformRatioHint = document.getElementById('platformRatioHint');
 
     function updateRatioHint() {
-      const p = PLATFORMS[platformEl.value];
+      const p = PLATFORMS[platformEl.value] || PLATFORMS['None'];
       platformRatioHint.textContent = 'Aspect Ratio: ' + p.ratio;
       ratioBox.textContent = p.ratio;
       ratioNote.textContent = p.note;
     }
 
-    const SWATCHES = [
-      '#F87171', '#EF4444', '#DC2626', '#B91C1C', '#7F1D1D',
+    function syncSpecialEventMode() {
+      const isSpecial = occasionEl.value !== 'None (General)';
+      const els = [platformEl, industryEl, styleEl];
+      els.forEach(el => {
+        el.disabled = isSpecial;
+        el.classList.toggle('opacity-40', isSpecial);
+      });
+      if (isSpecial) {
+        els.forEach(el => { el.value = 'None'; });
+        updateRatioHint();
+      }
+    }
+
+    const SWATCHES = [ '#EF4444', '#DC2626', '#B91C1C', '#7F1D1D',
       '#FDA4AF', '#FB7185', '#F43F5E', '#E11D48', '#BE123C',
       '#FDBA74', '#FB923C', '#F97316', '#EA580C', '#C2410C', '#7C2D12',
       '#FDE68A', '#FCD34D', '#FBBF24', '#F59E0B', '#D97706', '#B45309', '#92400E', '#78350F',
@@ -1037,21 +1061,21 @@
       const brand    = brandEl.value.trim();
       const topic    = topicEl.value.trim() || 'premium product';
       const color    = colorEl.value || '#06B6D4';
-      const { ratio } = PLATFORMS[platform];
-      const styleWords = STYLE_PACKS[style].join(', ');
-      const industryWords = INDUSTRY_KEYWORDS[industry].join(', ');
+      const { ratio } = PLATFORMS[platform] || PLATFORMS['None'];
+      const styleWords = STYLE_PACKS[style] ? STYLE_PACKS[style].join(', ') : '';
+      const industryWords = INDUSTRY_KEYWORDS[industry] ? INDUSTRY_KEYWORDS[industry].join(', ') : '';
       const occasionWords = OCCASION_KEYWORDS[occasion];
       const occasionLine = occasionWords ? `Occasion theme: ${occasionWords.join(', ')}. ` : '';
       const brandLine = brand ? `Brand identity: ${brand} integrated subtly into the design. ` : '';
       const colorLine = `Primary color palette: use ${color} as the main accent color for highlights and CTAs. `;
       return [
-        `Ultra-detailed banner design for ${platform}.`,
+        `Ultra-detailed banner design for ${platform === 'None' ? 'a special event' : platform}.`,
         `Subject: ${topic}.`,
-        `Style: ${styleWords}.`,
-        `Industry tone: ${industryWords}.`,
+        styleWords ? `Style: ${styleWords}.` : null,
+        industryWords ? `Industry tone: ${industryWords}.` : null,
         `${occasionLine}${brandLine}${colorLine}High-resolution marketing banner, sharp focus, professional color grading, visually balanced layout with clear focal point.`,
-        `Aspect ratio --ar ${ratio}. Render-ready for ${platform}.`
-      ].join(' ');
+        `Aspect ratio --ar ${ratio}. Render-ready for the chosen platform or occasion.`
+      ].filter(Boolean).join(' ');
     }
 
     async function typePrompt(text) {
@@ -1107,9 +1131,11 @@
 
     copyBtn.addEventListener('click', copyPrompt);
     platformEl.addEventListener('change', updateRatioHint);
+    occasionEl.addEventListener('change', syncSpecialEventMode);
     topicEl.addEventListener('keydown', e => { if (e.key === 'Enter') generateBtn.click(); });
 
     updateRatioHint();
+    syncSpecialEventMode();
   </script>
 </body>
 </html>
