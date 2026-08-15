@@ -186,6 +186,11 @@
             <option value="Spotify Cover">Spotify Cover</option>
             <option value="Steam Capsule">Steam Capsule</option>
             <option value="Webinar Cover">Webinar Cover</option>
+            <option value="YouTube Shorts Cover">YouTube Shorts Cover</option>
+            <option value="TikTok Profile Cover">TikTok Profile Cover</option>
+            <option value="LinkedIn Post">LinkedIn Post</option>
+            <option value="Medium Article Cover">Medium Article Cover</option>
+            <option value="Telegram Channel Header">Telegram Channel Header</option>
           </select>
         </label>
 
@@ -221,6 +226,11 @@
             <option value="Green Energy & Solar">Green Energy &amp; Solar</option>
             <option value="BPO & Call Center">BPO &amp; Call Center</option>
             <option value="Nonprofit & NGO">Nonprofit &amp; NGO</option>
+            <option value="Digital Marketing & SEO">Digital Marketing &amp; SEO</option>
+            <option value="HR & Recruitment">HR &amp; Recruitment</option>
+            <option value="Wedding & Events Planning">Wedding &amp; Events Planning</option>
+            <option value="Home Services & Cleaning">Home Services &amp; Cleaning</option>
+            <option value="Aviation & Travel">Aviation &amp; Travel</option>
           </select>
         </label>
 
@@ -256,6 +266,11 @@
             <option value="Glassmorphism">Glassmorphism</option>
             <option value="VHS Glitch">VHS Glitch</option>
             <option value="Sticker Pop">Sticker Pop</option>
+            <option value="Low Poly">Low Poly</option>
+            <option value="Pixel Art">Pixel Art</option>
+            <option value="Line Art">Line Art</option>
+            <option value="Monochrome Duotone">Monochrome Duotone</option>
+            <option value="Doodle Sketch">Doodle Sketch</option>
           </select>
         </label>
 
@@ -366,6 +381,11 @@
       "Spotify Cover":      { ratio: "1:1",  note: "Square playlist / album cover art." },
       "Steam Capsule":      { ratio: "4:3",  note: "Game capsule header 600x450." },
       "Webinar Cover":      { ratio: "16:9", note: "1280x720 registration / event cover." },
+      "YouTube Shorts Cover": { ratio: "9:16", note: "1080x1920 vertical shorts preview." },
+      "TikTok Profile Cover": { ratio: "1:1", note: "Square profile / collection cover." },
+      "LinkedIn Post":      { ratio: "4:5",  note: "1200x1500 vertical feed post." },
+      "Medium Article Cover": { ratio: "16:9", note: "1600x840 article header image." },
+      "Telegram Channel Header": { ratio: "16:9", note: "1200x675 channel description header." },
     };
 
     const STYLE_PACKS = {
@@ -469,6 +489,26 @@
         "bold sticker pop art style", "thick white outlines", "bright glossy colors",
         "die-cut sticker shapes", "playful cartoon energy", "collectible kawaii charm"
       ],
+      "Low Poly": [
+        "low poly geometric style", "faceted polygon surfaces", "soft gradient vertex shading",
+        "modern 3D game look", "clean sculpted shapes", "minimal detailed planes"
+      ],
+      "Pixel Art": [
+        "retro pixel art style", "chunky visible pixels", "limited 8-bit palette",
+        "classic arcade nostalgia", "crisp pixel edges", "playful game sprite feel"
+      ],
+      "Line Art": [
+        "elegant line art style", "continuous flowing strokes", "delicate fine detailing",
+        "clean white-space balance", "sophisticated monochrome ink", "minimal artistic elegance"
+      ],
+      "Monochrome Duotone": [
+        "sophisticated duotone look", "single accent color scheme", "high-contrast grayscale",
+        "bold graphic poster style", "clean tonal depth", "modern minimalist mood"
+      ],
+      "Doodle Sketch": [
+        "playful doodle sketch style", "hand-drawn scribbles", "loose quirky lines",
+        "colorful scattered icons", "casual notebook energy", "youthful creative feel"
+      ],
     };
 
     const INDUSTRY_KEYWORDS = {
@@ -497,6 +537,11 @@
       "Green Energy & Solar": ["clean eco-friendly look", "fresh green and sky palette", "sustainable innovation vibe"],
       "BPO & Call Center": ["professional support vibe", "modern headset motifs", "efficient service tone"],
       "Nonprofit & NGO": ["heartwarming humanitarian tone", "hopeful warm lighting", "community-driven storytelling"],
+      "Digital Marketing & SEO": ["conversion-focused design", "data dashboard motifs", "growth-oriented energy"],
+      "HR & Recruitment": ["professional hiring vibe", "warm team culture visuals", "opportunity-focused tone"],
+      "Wedding & Events Planning": ["elegant celebration aesthetic", "soft romantic tones", "luxurious event styling"],
+      "Home Services & Cleaning": ["fresh sparkly clean vibe", "trustworthy neighborhood feel", "bright airy colors"],
+      "Aviation & Travel": ["modern airline aesthetic", "sleek sky and wing views", "premium travel comfort"],
     };
 
     const platformEl   = document.getElementById('platform');
