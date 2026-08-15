@@ -103,20 +103,6 @@
       box-shadow: 0 0 0 2px #22d3ee, 0 0 12px rgba(34, 211, 238, 0.5);
       border-color: #22d3ee;
     }
-    .pv-neon { background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 3px); }
-    .pv-pixel { background-image: linear-gradient(rgba(255,255,255,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.09) 1px, transparent 1px); background-size: 10px 10px; }
-    .pv-grain { background-image: radial-gradient(rgba(255,255,255,0.10) 1px, transparent 1px); background-size: 6px 6px; }
-    .pv-luxury { background-image: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.30), transparent 45%); }
-    .pv-grid-overlay {
-      background-image:
-        linear-gradient(to right, rgba(255,255,255,0.28) 1px, transparent 1px),
-        linear-gradient(to right, rgba(255,255,255,0.28) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,0.28) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,0.28) 1px, transparent 1px);
-      background-size: 33.333% 100%, 33.333% 100%, 100% 33.333%, 100% 33.333%;
-      background-position: 33.333% 0, 66.666% 0, 0 33.333%, 0 66.666%;
-      background-repeat: no-repeat;
-    }
   </style>
 </head>
 <body class="min-h-screen font-body text-slate-200 antialiased selection:bg-cyan-500/30">
@@ -183,43 +169,6 @@
         <div>
           <span class="mb-2 block text-sm font-head font-semibold text-slate-300">Quick Templates</span>
           <div id="templateChips" class="flex flex-wrap gap-2"></div>
-        </div>
-
-        <!-- Live Preview -->
-        <div>
-          <div class="mb-2 flex items-center justify-between gap-2">
-            <span class="text-sm font-head font-semibold text-slate-300">Live Preview</span>
-            <div class="flex items-center gap-1.5">
-              <span id="previewMeta" class="text-[11px] font-medium text-cyan-300/80">16:9 · Wide landscape</span>
-              <button id="gridToggle" type="button" title="Toggle rule-of-thirds grid"
-                class="rounded-lg border border-white/10 bg-[#16213b]/60 p-1.5 text-slate-400 transition hover:text-cyan-300">
-                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
-              </button>
-              <button id="expandPreviewBtn" type="button" title="Fullscreen preview"
-                class="rounded-lg border border-white/10 bg-[#16213b]/60 p-1.5 text-slate-400 transition hover:text-cyan-300">
-                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
-              </button>
-            </div>
-          </div>
-          <div class="flex h-64 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-[#0A1122]/90 sm:h-72">
-            <div id="previewCanvas" class="relative my-auto rounded-xl shadow-2xl transition-transform duration-300 hover:scale-[1.03]" style="aspect-ratio: 16 / 9;">
-              <div id="previewInner" class="relative flex h-full w-full flex-col items-center justify-center gap-1 overflow-hidden rounded-xl p-3 text-center sm:gap-2 sm:p-4">
-                <div id="previewChrome" class="absolute left-0 right-0 top-0 z-10 hidden items-center gap-1.5 bg-[#0A1122]/70 px-3 py-2 backdrop-blur-sm">
-                  <span class="h-2.5 w-2.5 rounded-full bg-white/30"></span>
-                  <span class="h-2.5 w-2.5 rounded-full bg-white/30"></span>
-                  <span class="h-2.5 w-2.5 rounded-full bg-white/30"></span>
-                  <span class="ml-2 h-2 flex-1 rounded-full bg-white/15"></span>
-                </div>
-                <div id="previewBg" class="absolute inset-0"></div>
-                <div id="previewBlobA" class="absolute -top-10 -right-10 h-40 w-40 rounded-full opacity-60 blur-2xl"></div>
-                <div id="previewBlobB" class="absolute -bottom-12 -left-12 h-44 w-44 rounded-full opacity-50 blur-2xl"></div>
-                <div id="previewGrid" class="pv-grid-overlay pointer-events-none absolute inset-0 hidden"></div>
-                <span id="previewTag" class="relative rounded-full px-3 py-1 text-[10px] font-head font-bold uppercase tracking-widest"></span>
-                <span id="previewTitle" class="relative font-head text-base font-extrabold leading-tight sm:text-2xl"></span>
-                <span id="previewCta" class="relative rounded-lg px-4 py-1.5 text-xs font-head font-bold"></span>
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- Platform -->
@@ -461,28 +410,6 @@
     </footer>
   </div>
 
-  <!-- Preview Modal -->
-  <div id="previewModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-    <div class="w-full max-w-3xl">
-      <div class="mb-3 flex items-center justify-between gap-2">
-        <span id="previewModalMeta" class="text-sm font-head font-semibold text-cyan-300">16:9</span>
-        <button id="previewModalClose" type="button" class="rounded-lg border border-white/10 bg-[#16213b]/60 px-3 py-1.5 text-xs font-head font-semibold text-slate-300 transition hover:text-cyan-300">Close</button>
-      </div>
-      <div class="flex h-[70vh] items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-[#0A1122]/90">
-        <div id="previewModalCanvas" class="relative my-auto rounded-xl shadow-2xl" style="aspect-ratio: 16 / 9;">
-          <div id="previewModalInner" class="relative flex h-full w-full flex-col items-center justify-center gap-2 overflow-hidden rounded-xl p-4 text-center sm:gap-3 sm:p-8">
-            <div id="previewModalBg" class="absolute inset-0"></div>
-            <div id="previewModalBlobA" class="absolute -top-10 -right-10 h-52 w-52 rounded-full opacity-60 blur-3xl"></div>
-            <div id="previewModalBlobB" class="absolute -bottom-14 -left-14 h-56 w-56 rounded-full opacity-50 blur-3xl"></div>
-            <span id="previewModalTag" class="relative rounded-full px-4 py-1 text-xs font-head font-bold uppercase tracking-widest"></span>
-            <span id="previewModalTitle" class="relative font-head text-3xl font-extrabold leading-tight sm:text-5xl"></span>
-            <span id="previewModalCta" class="relative rounded-xl px-6 py-2.5 text-base font-head font-bold"></span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <script>
     const PLATFORMS = {
       "None":               { ratio: "16:9", note: "Free-form design — no fixed platform ratio." },
@@ -678,30 +605,6 @@
     const promptCards  = document.getElementById('promptCards');
     const varOneBtn    = document.getElementById('varOneBtn');
     const varThreeBtn  = document.getElementById('varThreeBtn');
-    const previewCanvas= document.getElementById('previewCanvas');
-    const previewInner = document.getElementById('previewInner');
-    const previewTag   = document.getElementById('previewTag');
-    const previewTitle = document.getElementById('previewTitle');
-    const previewCta   = document.getElementById('previewCta');
-    const previewMeta  = document.getElementById('previewMeta');
-    const previewChrome= document.getElementById('previewChrome');
-    const previewBg    = document.getElementById('previewBg');
-    const previewBlobA = document.getElementById('previewBlobA');
-    const previewBlobB = document.getElementById('previewBlobB');
-    const previewGrid  = document.getElementById('previewGrid');
-    const gridToggle   = document.getElementById('gridToggle');
-    const expandPreviewBtn = document.getElementById('expandPreviewBtn');
-    const previewModal = document.getElementById('previewModal');
-    const previewModalClose = document.getElementById('previewModalClose');
-    const previewModalCanvas = document.getElementById('previewModalCanvas');
-    const previewModalInner  = document.getElementById('previewModalInner');
-    const previewModalBg     = document.getElementById('previewModalBg');
-    const previewModalBlobA  = document.getElementById('previewModalBlobA');
-    const previewModalBlobB  = document.getElementById('previewModalBlobB');
-    const previewModalTag    = document.getElementById('previewModalTag');
-    const previewModalTitle  = document.getElementById('previewModalTitle');
-    const previewModalCta    = document.getElementById('previewModalCta');
-    const previewModalMeta   = document.getElementById('previewModalMeta');
     const ratioBox     = document.getElementById('ratioBox');
     const ratioNote    = document.getElementById('ratioNote');
     const platformRatioHint = document.getElementById('platformRatioHint');
@@ -744,7 +647,6 @@
       btnSpinner.classList.add('hidden');
       btnLabel.textContent = 'Generate Prompt';
       saveState();
-      updatePreview();
     }
 
     const SWATCHES = [
@@ -832,121 +734,6 @@
           : `Aspect ratio ${MODEL_CONFIG[model].param} ${ratio}. Render-ready for the chosen platform.`
       ].filter(Boolean).join(' ');
     }
-
-    function shade(hex, pct) {
-      const n = parseInt(hex.slice(1), 16);
-      const amt = Math.round(2.55 * pct);
-      const r = Math.min(255, Math.max(0, (n >> 16) + amt));
-      const g = Math.min(255, Math.max(0, ((n >> 8) & 0xff) + amt));
-      const b = Math.min(255, Math.max(0, (n & 0xff) + amt));
-      return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-    }
-
-    function luminance(hex) {
-      const n = parseInt(hex.slice(1), 16);
-      const r = (n >> 16) / 255;
-      const g = ((n >> 8) & 0xff) / 255;
-      const b = (n & 0xff) / 255;
-      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-    }
-
-    const PREVIEW_STYLES = {
-      "Modern Minimalist": {},
-      "Cyberpunk & Neon": { glow: '#f472b6', texture: 'neon' },
-      "Corporate Professional": { glow: '#fbbf24', texture: 'grain' },
-      "Bold & Energetic": { glow: '#fb7185' },
-      "3D Render": { glow: '#38bdf8', texture: 'grain' },
-      "Vintage Retro": { glow: '#fbbf24', texture: 'grain' },
-      "Luxury & Gold": { glow: '#fcd34d', texture: 'luxury' },
-      "Flat Illustration": { glow: '#facc15' },
-      "Isometric": { glow: '#67e8f9', texture: 'pixel' },
-      "Cinematic": { glow: '#f87171', texture: 'grain' },
-      "Synthwave Retro": { glow: '#f472b6', texture: 'neon' },
-      "Watercolor Artistic": { glow: '#f9a8d4' },
-      "Cartoon / Anime": { glow: '#facc15' },
-      "Abstract Gradient": { glow: '#c084fc' },
-      "Neon Noir": { glow: '#22d3ee', texture: 'neon' },
-      "Pastel Dreamy": { glow: '#f9a8d4' },
-      "Editorial Magazine": { glow: '#e2e8f0', texture: 'grain' },
-      "Glassmorphism": { glow: '#a5f3fc', texture: 'grain' },
-      "Pixel Art": { glow: '#4ade80', texture: 'pixel' },
-      "Neon Signs": { glow: '#fb7185', texture: 'neon' },
-    };
-
-    function deviceFor(platform) {
-      if (['Instagram Story', 'WhatsApp Status', 'TikTok Cover', 'YouTube Shorts Cover', 'Instagram Reels Cover', 'App Store Screenshot'].includes(platform)) return 'phone';
-      if (['Website Hero Banner', 'YouTube Thumbnail', 'YouTube Channel Art', 'LinkedIn Banner', 'Facebook Cover', 'Twitter / X Header', 'Email Header Banner', 'Blog Header', 'Twitch Banner', 'Billboard', 'Google Display Ad'].includes(platform)) return 'browser';
-      if (platform === 'Business Card') return 'card';
-      return 'square';
-    }
-
-    function paintPreview(o) {
-      o.canvas.style.aspectRatio = o.ratio;
-      o.canvas.style.height = '100%';
-      o.canvas.style.maxWidth = '100%';
-      const color = colorEl.value || '#06B6D4';
-      const style = styleEl.value;
-      const s = PREVIEW_STYLES[style] || {};
-      const glow = s.glow || shade(color, 30);
-      o.bg.style.background = 'radial-gradient(120% 120% at 85% 15%, ' + glow + '44 0%, transparent 55%), linear-gradient(135deg, ' + color + ' 0%, ' + shade(color, -35) + ' 100%)';
-      o.bg.className = 'absolute inset-0' + (s.texture ? ' pv-' + s.texture : '');
-      o.blobA.style.background = 'radial-gradient(circle, ' + glow + 'cc, transparent 70%)';
-      o.blobB.style.background = 'radial-gradient(circle, ' + color + 'cc, transparent 70%)';
-      o.inner.style.boxShadow = 'inset 0 0 ' + o.inset + 'px rgba(0,0,0,0.35)';
-      const txt = luminance(color) > 0.55 ? '#0F172A' : '#FFFFFF';
-      const serif = ['Luxury & Gold', 'Editorial Magazine'].includes(style);
-      o.title.textContent = topicEl.value.trim() || 'Your product here';
-      o.title.style.color = txt;
-      o.title.className = (serif ? 'font-serif ' : 'font-head ') + o.titleClass;
-      o.tag.textContent = (brandEl.value.trim() || 'DIGISYSTEM').toUpperCase();
-      o.tag.style.color = txt;
-      o.tag.style.background = txt + '22';
-      o.tag.style.border = '1px solid ' + txt + '55';
-      o.cta.textContent = ctaEl.value.trim() || 'Learn More';
-      o.cta.style.background = txt;
-      o.cta.style.color = color;
-    }
-
-    function updatePreview() {
-      const p = PLATFORMS[platformEl.value] || PLATFORMS['None'];
-      const ratio = p.ratio.replace(':', ' / ');
-      const dev = deviceFor(platformEl.value);
-      previewCanvas.className = 'relative my-auto cursor-pointer shadow-2xl transition-transform duration-300 hover:scale-[1.03]';
-      if (dev === 'phone') previewCanvas.classList.add('rounded-[1.75rem]', 'ring-4', 'ring-slate-800');
-      else if (dev === 'browser') previewCanvas.classList.add('rounded-t-lg', 'rounded-b-xl');
-      else if (dev === 'card') previewCanvas.classList.add('rounded-md');
-      else previewCanvas.classList.add('rounded-2xl');
-      previewChrome.classList.toggle('flex', dev === 'browser');
-      previewChrome.classList.toggle('hidden', dev !== 'browser');
-      paintPreview({
-        canvas: previewCanvas, inner: previewInner, bg: previewBg, blobA: previewBlobA, blobB: previewBlobB,
-        tag: previewTag, title: previewTitle, cta: previewCta, ratio,
-        inset: 80, titleClass: 'relative text-base font-extrabold leading-tight sm:text-2xl',
-      });
-      paintPreview({
-        canvas: previewModalCanvas, inner: previewModalInner, bg: previewModalBg, blobA: previewModalBlobA, blobB: previewModalBlobB,
-        tag: previewModalTag, title: previewModalTitle, cta: previewModalCta, ratio,
-        inset: 140, titleClass: 'relative text-3xl font-extrabold leading-tight sm:text-5xl',
-      });
-      previewModalMeta.textContent = p.ratio + ' · ' + platformEl.value;
-      previewMeta.textContent = p.ratio + ' · ' + p.note;
-    }
-
-    function openPreviewModal() { previewModal.classList.remove('hidden'); }
-    function closePreviewModal() { previewModal.classList.add('hidden'); }
-
-    let gridOn = false;
-    gridToggle.addEventListener('click', () => {
-      gridOn = !gridOn;
-      previewGrid.classList.toggle('hidden', !gridOn);
-      gridToggle.classList.toggle('text-cyan-300', gridOn);
-      gridToggle.classList.toggle('text-slate-400', !gridOn);
-    });
-    expandPreviewBtn.addEventListener('click', openPreviewModal);
-    previewCanvas.addEventListener('click', openPreviewModal);
-    previewModalClose.addEventListener('click', closePreviewModal);
-    previewModal.addEventListener('click', e => { if (e.target === previewModal) closePreviewModal(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePreviewModal(); });
 
     let variationCount = 1;
 
@@ -1085,8 +872,8 @@
     varOneBtn.addEventListener('click', () => setVariation(1));
     varThreeBtn.addEventListener('click', () => setVariation(3));
     resetBtn.addEventListener('click', resetForm);
-    platformEl.addEventListener('change', () => { updateRatioHint(); updatePreview(); });
-    modelEl.addEventListener('change', () => { updateRatioHint(); updatePreview(); });
+    platformEl.addEventListener('change', updateRatioHint);
+    modelEl.addEventListener('change', updateRatioHint);
     topicEl.addEventListener('keydown', e => { if (e.key === 'Enter') generateBtn.click(); });
     document.addEventListener('keydown', e => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); generateBtn.click(); }
@@ -1127,15 +914,9 @@
       } catch (e) {}
     }
 
-    [platformEl, industryEl, styleEl, audienceEl, lightingEl].forEach(el => {
-      el.addEventListener('change', saveState);
-      el.addEventListener('change', updatePreview);
-    });
-    [brandEl, topicEl, ctaEl, colorHexEl].forEach(el => {
-      el.addEventListener('input', saveState);
-      el.addEventListener('input', updatePreview);
-    });
-    colorEl.addEventListener('input', () => { saveState(); updatePreview(); });
+    [platformEl, industryEl, styleEl, audienceEl, lightingEl].forEach(el => el.addEventListener('change', saveState));
+    [brandEl, topicEl, ctaEl, colorHexEl].forEach(el => el.addEventListener('input', saveState));
+    colorEl.addEventListener('input', saveState);
 
     let promptHistory = [];
     try { promptHistory = JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; } catch (e) {}
@@ -1181,7 +962,7 @@
       const c = pick(SWATCHES);
       colorEl.value = c;
       colorHexEl.value = c;
-      updateRatioHint(); updateSwatchActive(); saveState(); updatePreview();
+      updateRatioHint(); updateSwatchActive(); saveState();
     });
 
     const TEMPLATES = [
@@ -1201,7 +982,7 @@
           platformEl.value = t.platform; industryEl.value = t.industry; styleEl.value = t.style;
           audienceEl.value = t.audience; lightingEl.value = t.lighting;
           topicEl.value = t.topic; ctaEl.value = t.cta;
-          updateRatioHint(); saveState(); updatePreview();
+          updateRatioHint(); saveState();
           generateBtn.click();
         });
         templateChips.appendChild(b);
@@ -1213,7 +994,6 @@
     renderHistory();
     updateRatioHint();
     updateSwatchActive();
-    updatePreview();
     setVariation(1);
   </script>
 </body>
