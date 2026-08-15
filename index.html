@@ -80,7 +80,6 @@
       mask-composite: exclude;
       pointer-events: none;
     }
-    .text-glow { text-shadow: 0 0 20px rgba(34, 211, 238, 0.35); }
     select, input, textarea { color-scheme: dark; }
     .pulse-dot {
       width: 8px; height: 8px; border-radius: 9999px;
@@ -89,16 +88,6 @@
       animation: pulseDot 2s infinite;
     }
     @keyframes pulseDot { 70% { box-shadow: 0 0 0 8px rgba(34, 211, 238, 0); } 100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0); } }
-    .prompt-cursor::after {
-      content: "";
-      display: inline-block;
-      width: 8px; height: 1em;
-      background: #22d3ee;
-      margin-left: 2px;
-      vertical-align: text-bottom;
-      animation: blink 1s steps(2) infinite;
-    }
-    @keyframes blink { 50% { opacity: 0; } }
     .spin-slow { animation: spin 1.2s linear infinite; }
     select option { background: #16213b; color: #E2E8F0; }
     .swatch-btn {
@@ -130,17 +119,13 @@
             <span class="pulse-dot"></span>
             Powered by DigiSystem
           </a>
-          <span class="hidden sm:inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-400/5 px-3 py-1.5 text-xs font-head font-medium text-emerald-300">
-            <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            Tool Ready
-          </span>
         </div>
       </div>
     </header>
 
     <!-- Hero -->
     <section class="mt-10 text-center">
-      <span class="hero-badge inline-flex items-center gap-2 rounded-full border border-cyan-400/35 bg-cyan-400/10 px-4 py-2 text-xs font-head font-semibold text-cyan-300 tracking-wide shadow-[0_0_25px_rgba(6,182,212,0.15)]">
+      <span class="inline-flex items-center gap-2 rounded-full border border-cyan-400/35 bg-cyan-400/10 px-4 py-2 text-xs font-head font-semibold text-cyan-300 tracking-wide shadow-[0_0_25px_rgba(6,182,212,0.15)]">
         <span class="pulse-dot"></span>
         Trusted AI Banner Prompt Studio
       </span>
@@ -512,16 +497,21 @@
         </label>
 
         <!-- Generate -->
-        <button id="generateBtn"
-          class="btn-glow w-full rounded-xl px-6 py-4 font-head text-sm font-extrabold uppercase tracking-wider transition-transform duration-200 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:hover:scale-100">
-          <span class="flex items-center justify-center gap-3">
-            <span id="btnSpinner" class="hidden h-4 w-4 rounded-full border-2 border-[#04222b]/30 border-t-[#04222b] spin-slow"></span>
-            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            <span id="btnLabel">Generate Prompt</span>
-          </span>
-        </button>
+        <div class="flex gap-3">
+          <button id="generateBtn"
+            class="btn-glow flex-1 rounded-xl px-6 py-4 font-head text-sm font-extrabold uppercase tracking-wider transition-transform duration-200 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:hover:scale-100">
+            <span class="flex items-center justify-center gap-3">
+              <span id="btnSpinner" class="hidden h-4 w-4 rounded-full border-2 border-[#04222b]/30 border-t-[#04222b] spin-slow"></span>
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              <span id="btnLabel">Generate Prompt</span>
+            </span>
+          </button>
+          <button id="resetBtn" type="button"
+            class="rounded-xl border border-white/10 bg-[#16213b]/60 px-5 py-4 font-head text-sm font-bold uppercase tracking-wider text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-300"
+            title="Reset all fields to defaults">Reset</button>
+        </div>
 
         <!-- Output -->
         <section id="outputSection" class="hidden">
@@ -539,7 +529,7 @@
               </div>
               <textarea id="promptOutput" readonly rows="8"
                 class="w-full resize-none rounded-xl border border-white/10 bg-[#0F172A]/90 p-4 font-mono text-[12.5px] leading-relaxed text-cyan-100/90 outline-none focus:border-cyan-400/50 transition"></textarea>
-              <div id="typingCursor" class="prompt-cursor text-cyan-400 text-sm hidden"></div>
+              <p id="promptMeta" class="mt-1 text-right text-[11px] font-medium text-slate-500"></p>
             </div>
             <aside class="glass rounded-xl p-4">
               <p class="text-xs font-head font-bold uppercase tracking-widest text-cyan-300/90">Aspect Ratio Guide</p>
@@ -562,11 +552,7 @@
         <span class="text-slate-500">&middot;</span>
         <span class="font-head font-semibold text-cyan-300/90">Digi Banner</span>
       </div>
-      <span class="inline-flex items-center gap-1.5 rounded-full border border-cyan-400/20 bg-cyan-400/5 px-3 py-1 font-head font-semibold text-cyan-300/90">
-        <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.1 5.9L20 10l-5.9 2.1L12 18l-2.1-5.9L4 10l5.9-2.1z"/></svg>
-        Key by Digi System
-      </span>
-      <p class="mt-2">Copy the prompt into Flux, Midjourney or DALL-E 3 to render.</p>
+      <p class="mt-3">Copy the prompt into Flux, Midjourney or DALL-E 3 to render.</p>
     </footer>
   </div>
 
@@ -588,7 +574,7 @@
       "Twitch Banner":      { ratio: "3:1",  note: "1200x480, streaming channel banner." },
       "Podcast Cover":      { ratio: "1:1",  note: "3000x3000, square episode artwork." },
       "WhatsApp Status":    { ratio: "9:16", note: "1080x1920, vertical status update." },
-      "TikTok Cover":       { ratio: "16:9", note: "1080x1920 video, 16:9 desktop cover." },
+      "TikTok Cover":       { ratio: "9:16", note: "1080x1920, vertical video cover frame." },
       "Snapchat Story":     { ratio: "9:16", note: "1080x1920, full vertical snap ad." },
       "Blog Header":        { ratio: "16:9", note: "1200x675, featured article image." },
       "Print Poster":       { ratio: "1:1.4", note: "A3 portrait 297x420mm print-ready." },
@@ -1066,13 +1052,14 @@
     const colorHexEl   = document.getElementById('colorHex');
     const colorSwatchesEl = document.getElementById('colorSwatches');
     const generateBtn  = document.getElementById('generateBtn');
+    const resetBtn     = document.getElementById('resetBtn');
     const btnLabel     = document.getElementById('btnLabel');
     const btnSpinner   = document.getElementById('btnSpinner');
     const outputSection= document.getElementById('outputSection');
     const promptOutput = document.getElementById('promptOutput');
     const copyBtn      = document.getElementById('copyBtn');
     const copyLabel    = document.getElementById('copyLabel');
-    const typingCursor = document.getElementById('typingCursor');
+    const promptMeta   = document.getElementById('promptMeta');
     const ratioBox     = document.getElementById('ratioBox');
     const ratioNote    = document.getElementById('ratioNote');
     const platformRatioHint = document.getElementById('platformRatioHint');
@@ -1084,17 +1071,49 @@
       ratioNote.textContent = p.note;
     }
 
+    const savedEventState = { platform: 'Website Hero Banner', industry: 'E-commerce & Retail', style: 'Modern Minimalist', hasSaved: false };
+
     function syncSpecialEventMode() {
       const isSpecial = occasionEl.value !== 'None (General)';
       const els = [platformEl, industryEl, styleEl];
-      els.forEach(el => {
-        el.disabled = isSpecial;
-        el.classList.toggle('opacity-40', isSpecial);
-      });
       if (isSpecial) {
-        els.forEach(el => { el.value = 'None'; });
-        updateRatioHint();
+        if (!savedEventState.hasSaved) {
+          savedEventState.platform = platformEl.value;
+          savedEventState.industry = industryEl.value;
+          savedEventState.style = styleEl.value;
+          savedEventState.hasSaved = true;
+        }
+        els.forEach(el => { el.value = 'None'; el.disabled = true; });
+      } else {
+        els.forEach((el, i) => {
+          if (savedEventState.hasSaved) {
+            el.value = [savedEventState.platform, savedEventState.industry, savedEventState.style][i];
+          }
+          el.disabled = false;
+        });
+        savedEventState.hasSaved = false;
       }
+      updateRatioHint();
+    }
+
+    function resetForm() {
+      savedEventState.hasSaved = false;
+      platformEl.value = 'Website Hero Banner';
+      industryEl.value = 'E-commerce & Retail';
+      styleEl.value = 'Modern Minimalist';
+      occasionEl.value = 'None (General)';
+      audienceEl.value = 'General Public';
+      lightingEl.value = 'Studio Soft Light';
+      brandEl.value = '';
+      topicEl.value = 'Wireless Gaming Headphones';
+      ctaEl.value = '';
+      colorEl.value = '#06B6D4';
+      colorHexEl.value = '#06B6D4';
+      syncSpecialEventMode();
+      outputSection.classList.add('hidden');
+      generateBtn.disabled = false;
+      btnSpinner.classList.add('hidden');
+      btnLabel.textContent = 'Generate Prompt';
     }
 
     const SWATCHES = [ '#EF4444', '#DC2626', '#B91C1C', '#7F1D1D',
@@ -1117,21 +1136,29 @@
       '#8B4513', '#A0522D', '#D2691E',
       '#FFFFFF', '#F8FAFC', '#F1F5F9', '#E2E8F0', '#CBD5E1', '#94A3B8', '#64748B', '#475569', '#334155', '#1E293B', '#0F172A', '#020617', '#000000'
     ];
+    const swatchBtns = [];
     SWATCHES.forEach(c => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.style.background = c;
-      btn.className = 'h-7 w-7 rounded-full border border-white/20 transition hover:scale-110';
+      btn.className = 'swatch-btn h-7 w-7 rounded-full transition hover:scale-110';
       btn.title = c;
       btn.setAttribute('aria-label', 'Color ' + c);
       btn.addEventListener('click', () => {
         colorEl.value = c;
         colorHexEl.value = c;
+        updateSwatchActive();
       });
+      swatchBtns.push(btn);
       colorSwatchesEl.appendChild(btn);
     });
 
-    colorEl.addEventListener('input', () => { colorHexEl.value = colorEl.value.toUpperCase(); });
+    function updateSwatchActive() {
+      swatchBtns.forEach((b, i) => b.classList.toggle('swatch-active', SWATCHES[i] === colorHexEl.value));
+    }
+
+    colorEl.addEventListener('input', () => { colorHexEl.value = colorEl.value.toUpperCase(); updateSwatchActive(); });
+    colorHexEl.addEventListener('input', updateSwatchActive);
     colorHexEl.addEventListener('change', () => {
       let v = colorHexEl.value.trim();
       if (v && !v.startsWith('#')) v = '#' + v;
@@ -1139,6 +1166,7 @@
         colorEl.value = v;
         colorHexEl.value = v.toUpperCase();
       }
+      updateSwatchActive();
     });
 
     function buildPrompt() {
@@ -1169,7 +1197,7 @@
       const ctaLine = cta ? `Call to action: bold CTA text "${cta}" placed prominently. ` : '';
 
       return [
-        `Ultra-detailed banner design for ${platform === 'None' ? 'a special event' : platform}.`,
+        `Ultra-detailed banner design for ${platform !== 'None' ? platform : (occasion !== 'None (General)' ? 'a special event' : 'a custom banner campaign')}.`,
         `Subject: ${topic}.`,
         styleWords ? `Style: ${styleWords}.` : null,
         industryWords ? `Industry tone: ${industryWords}.` : null,
@@ -1184,7 +1212,6 @@
 
     async function typePrompt(text) {
       promptOutput.value = '';
-      typingCursor.classList.remove('hidden');
       promptOutput.scrollTop = 0;
       const step = 6;
       for (let i = 0; i <= text.length; i += step) {
@@ -1193,7 +1220,14 @@
         await new Promise(r => setTimeout(r, 6));
       }
       promptOutput.value = text;
-      typingCursor.classList.add('hidden');
+      updatePromptMeta();
+    }
+
+    function updatePromptMeta() {
+      const t = promptOutput.value;
+      promptMeta.textContent = t
+        ? `${t.length.toLocaleString()} characters · ${t.trim().split(/\s+/).length} words`
+        : '';
     }
 
     function copyPrompt() {
@@ -1234,12 +1268,14 @@
     });
 
     copyBtn.addEventListener('click', copyPrompt);
+    resetBtn.addEventListener('click', resetForm);
     platformEl.addEventListener('change', updateRatioHint);
     occasionEl.addEventListener('change', syncSpecialEventMode);
     topicEl.addEventListener('keydown', e => { if (e.key === 'Enter') generateBtn.click(); });
 
     updateRatioHint();
     syncSpecialEventMode();
+    updateSwatchActive();
   </script>
 </body>
 </html>
