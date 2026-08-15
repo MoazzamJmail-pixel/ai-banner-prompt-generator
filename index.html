@@ -408,7 +408,7 @@
             title="Reset all fields to defaults">Reset</button>
         </div>
         <p class="text-[11px] text-slate-500">
-          <span class="font-semibold text-purple-300/80">AI Image:</span> press <span class="text-purple-300/80">Generate Image</span> on any prompt card for a real Flux render via Pollinations AI &mdash; free, no API key needed.
+          <span class="font-semibold text-purple-300/80">AI Image:</span> press <span class="text-purple-300/80">Generate Image</span> on any prompt card for a real Flux render via Pollinations AI &mdash; free, no API key needed. Generate one at a time &mdash; the engine rate-limits fast requests and retries automatically.
         </p>
 
         <!-- Output -->
@@ -802,6 +802,52 @@
         .slice(0, 1200);
     }
 
+    let imgChain = Promise.resolve();
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+
+    async function fetchWithRetry(urls, attempt) {
+      const url = urls[attempt % urls.length];
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 60000);
+      let res;
+      try {
+        res = await fetch(url, { signal: ctrl.signal });
+      } catch (e) {
+        clearTimeout(timer);
+        if (attempt >= 4) throw new Error(e && e.name === 'AbortError' ? 'timeout' : 'network');
+        await wait(3000);
+        return fetchWithRetry(urls, attempt + 1);
+      }
+      clearTimeout(timer);
+      if (res.status === 429) {
+        if (attempt >= 4) throw new Error('rate limited');
+        await wait(7000);
+        return fetchWithRetry(urls, attempt + 1);
+      }
+      if (!res.ok) {
+        if (attempt >= 4) throw new Error('http ' + res.status);
+        await wait(3000);
+        return fetchWithRetry(urls, attempt + 1);
+      }
+      const blob = await res.blob();
+      if (!blob.type || blob.type.indexOf('image/') !== 0) {
+        if (attempt >= 4) throw new Error('not an image');
+        await wait(3000);
+        return fetchWithRetry(urls, attempt + 1);
+      }
+      return { url: url, blob: blob };
+    }
+
+    function generateAIImage(promptText, width, height) {
+      const seed = Math.floor(Math.random() * 99999) + 1;
+      const clean = promptForImage(promptText);
+      const enc = encodeURIComponent(clean);
+      const urls = ['flux', 'turbo'].map(m =>
+        'https://image.pollinations.ai/prompt/' + enc + '?width=' + width + '&height=' + height + '&seed=' + seed + '&nologo=true&model=' + m + '&referrer=digibanner'
+      );
+      return fetchWithRetry(urls, 0);
+    }
+
     function buildPrompt() {
       const platform = platformEl.value;
       const industry = industryEl.value;
@@ -932,39 +978,45 @@
       cp.addEventListener('click', () => copyText(text, cp, cpLabel, ta));
       dl.addEventListener('click', () => downloadText(text));
       ig.addEventListener('click', () => {
+        if (ig.disabled) return;
         const ratio = PLATFORMS[platformEl.value] ? PLATFORMS[platformEl.value].ratio : '16:9';
         const size = ratioToPixels(ratio);
-        const seed = Math.floor(Math.random() * 99999) + 1;
-        const clean = promptForImage(text);
-        const makeUrl = model => 'https://image.pollinations.ai/prompt/' + encodeURIComponent(clean) + '?width=' + size[0] + '&height=' + size[1] + '&seed=' + seed + '&nologo=true&model=' + model;
         imgArea.classList.remove('hidden');
         imgLoading.classList.remove('hidden');
         imgResult.classList.add('hidden');
         imgError.classList.add('hidden');
         ig.disabled = true;
         igLabel.textContent = 'Generating...';
-        imgResult.onload = () => {
-          imgLoading.classList.add('hidden');
-          imgResult.classList.remove('hidden');
-          ig.disabled = false;
-          igLabel.textContent = 'Regenerate Image';
-        };
-        imgResult.onerror = () => {
-          if (!ig.dataset.triedTurbo) {
-            ig.dataset.triedTurbo = '1';
-            imgResult.src = makeUrl('turbo');
-          } else {
-            delete ig.dataset.triedTurbo;
-            imgLoading.classList.add('hidden');
-            imgError.classList.remove('hidden');
+        const work = async () => {
+          try {
+            const { url, blob } = await generateAIImage(text, size[0], size[1]);
+            const objUrl = URL.createObjectURL(blob);
+            imgLink.href = url;
+            imgResult.onload = () => {
+              URL.revokeObjectURL(objUrl);
+              imgLoading.classList.add('hidden');
+              imgResult.classList.remove('hidden');
+              ig.disabled = false;
+              igLabel.textContent = 'Regenerate Image';
+            };
+            imgResult.src = objUrl;
+          } catch (err) {
             ig.disabled = false;
             igLabel.textContent = 'Generate Image';
+            imgLoading.classList.add('hidden');
+            imgError.classList.remove('hidden');
+            imgError.textContent = err.message === 'timeout'
+              ? 'Image is taking too long (AI queue busy). Try again in a few seconds.'
+              : err.message === 'rate limited'
+                ? 'Too many requests right now. Waiting a few seconds fixes it — try again.'
+                : err.message === 'network'
+                  ? 'Network issue reaching the AI engine. Check your connection and try again.'
+                  : 'Could not generate the image. Try again.';
           }
         };
-        imgResult.src = makeUrl('flux');
-        imgLink.href = makeUrl('flux');
+        imgChain = imgChain.then(work);
       });
-      imgResult.addEventListener('click', () => openImageModal(imgResult.src));
+      imgResult.addEventListener('click', () => openImageModal(imgLink.href));
       imgLink.addEventListener('click', e => { e.preventDefault(); openImageModal(imgLink.href); });
       actions.appendChild(dl);
       actions.appendChild(ig);
