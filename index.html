@@ -191,6 +191,11 @@
             <option value="LinkedIn Post">LinkedIn Post</option>
             <option value="Medium Article Cover">Medium Article Cover</option>
             <option value="Telegram Channel Header">Telegram Channel Header</option>
+            <option value="Leaderboard Ad (728x90)">Leaderboard Ad (728x90)</option>
+            <option value="Skyscraper Ad">Skyscraper Ad</option>
+            <option value="Mobile App Splash">Mobile App Splash</option>
+            <option value="Etsy Shop Banner">Etsy Shop Banner</option>
+            <option value="Amazon Product Image">Amazon Product Image</option>
           </select>
         </label>
 
@@ -231,6 +236,11 @@
             <option value="Wedding & Events Planning">Wedding &amp; Events Planning</option>
             <option value="Home Services & Cleaning">Home Services &amp; Cleaning</option>
             <option value="Aviation & Travel">Aviation &amp; Travel</option>
+            <option value="Jewelry & Accessories">Jewelry &amp; Accessories</option>
+            <option value="Coffee & Beverages">Coffee &amp; Beverages</option>
+            <option value="IT & Cybersecurity">IT &amp; Cybersecurity</option>
+            <option value="Books & Publishing">Books &amp; Publishing</option>
+            <option value="Music & Audio">Music &amp; Audio</option>
           </select>
         </label>
 
@@ -271,6 +281,11 @@
             <option value="Line Art">Line Art</option>
             <option value="Monochrome Duotone">Monochrome Duotone</option>
             <option value="Doodle Sketch">Doodle Sketch</option>
+            <option value="Gouache Painting">Gouache Painting</option>
+            <option value="Origami">Origami</option>
+            <option value="Chalkboard Doodle">Chalkboard Doodle</option>
+            <option value="Chrome Metal">Chrome Metal</option>
+            <option value="Voxel 3D">Voxel 3D</option>
           </select>
         </label>
 
@@ -386,6 +401,11 @@
       "LinkedIn Post":      { ratio: "4:5",  note: "1200x1500 vertical feed post." },
       "Medium Article Cover": { ratio: "16:9", note: "1600x840 article header image." },
       "Telegram Channel Header": { ratio: "16:9", note: "1200x675 channel description header." },
+      "Leaderboard Ad (728x90)": { ratio: "8:1", note: "Classic web leaderboard banner." },
+      "Skyscraper Ad":      { ratio: "3:10", note: "Tall vertical web ad 160x600." },
+      "Mobile App Splash":  { ratio: "9:16", note: "App launch splash screen art." },
+      "Etsy Shop Banner":   { ratio: "3:1",  note: "Shop cover 1200x400 for Etsy." },
+      "Amazon Product Image": { ratio: "1:1", note: "Main product image with white or lifestyle bg." },
     };
 
     const STYLE_PACKS = {
@@ -509,6 +529,26 @@
         "playful doodle sketch style", "hand-drawn scribbles", "loose quirky lines",
         "colorful scattered icons", "casual notebook energy", "youthful creative feel"
       ],
+      "Gouache Painting": [
+        "rich gouache painting style", "opaque soft brush strokes", "dreamy matte finish",
+        "hand-mixed warm colors", "layered painterly depth", "charming art-supply feel"
+      ],
+      "Origami": [
+        "precision origami style", "crisp paper folds", "clean geometric creases",
+        "soft paper lighting", "minimal colored paper palette", "sculptural folded art"
+      ],
+      "Chalkboard Doodle": [
+        "hand-drawn chalkboard style", "white chalk on dark slate", "dashed hand lettering",
+        "classroom teaching vibe", "soft chalk texture", "casual informative energy"
+      ],
+      "Chrome Metal": [
+        "liquid chrome metal style", "mirror reflections and curves", "glossy studio highlights",
+        "futuristic molten metal", "high-shine 3D rendering", "edgy premium look"
+      ],
+      "Voxel 3D": [
+        "blocky voxel 3D art style", "cube-grid world", "soft per-block shading",
+        "sandbox game nostalgia", "clean geometric color blocks", "playful depth and scale"
+      ],
     };
 
     const INDUSTRY_KEYWORDS = {
@@ -542,6 +582,11 @@
       "Wedding & Events Planning": ["elegant celebration aesthetic", "soft romantic tones", "luxurious event styling"],
       "Home Services & Cleaning": ["fresh sparkly clean vibe", "trustworthy neighborhood feel", "bright airy colors"],
       "Aviation & Travel": ["modern airline aesthetic", "sleek sky and wing views", "premium travel comfort"],
+      "Jewelry & Accessories": ["sparkling luxury detail", "soft reflective surfaces", "elegant boutique styling"],
+      "Coffee & Beverages": ["warm cozy cafe vibe", "steaming cup artistry", "rich earthy tones"],
+      "IT & Cybersecurity": ["secure digital fortress look", "clean tech circuitry", "shield and firewall motifs"],
+      "Books & Publishing": ["warm literary atmosphere", "classic type and paper textures", "curated reading aesthetic"],
+      "Music & Audio": ["dynamic sound-wave energy", "studio stage lighting", "rhythmic visual flow"],
     };
 
     const platformEl   = document.getElementById('platform');
