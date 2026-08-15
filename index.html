@@ -216,6 +216,16 @@
             <option value="Kick Banner">Kick Banner</option>
             <option value="Dribbble Shot">Dribbble Shot</option>
             <option value="Patreon Cover">Patreon Cover</option>
+            <option value="Google Play Icon">Google Play Icon</option>
+            <option value="App Store Screenshot">App Store Screenshot</option>
+            <option value="Logo & Brand Identity">Logo &amp; Brand Identity</option>
+            <option value="Certificate Template">Certificate Template</option>
+            <option value="Invitation Card">Invitation Card</option>
+            <option value="Gift Voucher">Gift Voucher</option>
+            <option value="Threads Post">Threads Post</option>
+            <option value="LinkedIn Carousel">LinkedIn Carousel</option>
+            <option value="Profile Picture (DP)">Profile Picture (DP)</option>
+            <option value="News Thumbnail">News Thumbnail</option>
           </select>
         </label>
 
@@ -281,6 +291,16 @@
             <option value="Telecom & Networking">Telecom &amp; Networking</option>
             <option value="Auto Parts & Spares">Auto Parts &amp; Spares</option>
             <option value="Textile & Clothing">Textile &amp; Clothing</option>
+            <option value="Dairy & Milk Products">Dairy &amp; Milk Products</option>
+            <option value="Grocery & Supermarket">Grocery &amp; Supermarket</option>
+            <option value="Pharmaceuticals">Pharmaceuticals</option>
+            <option value="Petroleum & Fuel Stations">Petroleum &amp; Fuel Stations</option>
+            <option value="Cloud & Data Centers">Cloud &amp; Data Centers</option>
+            <option value="E-Learning Platforms">E-Learning Platforms</option>
+            <option value="Cinema & Theatres">Cinema &amp; Theatres</option>
+            <option value="Museum & Art Galleries">Museum &amp; Art Galleries</option>
+            <option value="Courier & Logistics">Courier &amp; Logistics</option>
+            <option value="IT Consulting">IT Consulting</option>
           </select>
         </label>
 
@@ -346,6 +366,16 @@
             <option value="Swiss Design">Swiss Design</option>
             <option value="Retro Space Age">Retro Space Age</option>
             <option value="Bokeh Photography">Bokeh Photography</option>
+            <option value="String Art">String Art</option>
+            <option value="Fractal Art">Fractal Art</option>
+            <option value="Vintage Travel Poster">Vintage Travel Poster</option>
+            <option value="Hand Lettering">Hand Lettering</option>
+            <option value="Stencil Graffiti">Stencil Graffiti</option>
+            <option value="Ink Splatter">Ink Splatter</option>
+            <option value="Crystal 3D">Crystal 3D</option>
+            <option value="Geometric Pattern">Geometric Pattern</option>
+            <option value="Cyberpunk Flat">Cyberpunk Flat</option>
+            <option value="Neon Outline">Neon Outline</option>
           </select>
         </label>
 
@@ -501,6 +531,16 @@
       "Kick Banner":         { ratio: "16:9", note: "Kick streaming profile banner." },
       "Dribbble Shot":       { ratio: "4:3",  note: "Design portfolio showcase shot." },
       "Patreon Cover":       { ratio: "16:9", note: "Creator profile cover image." },
+      "Google Play Icon":    { ratio: "1:1",  note: "512x512 app store icon." },
+      "App Store Screenshot":{ ratio: "9:19.5", note: "1290x2796 device screenshot." },
+      "Logo & Brand Identity": { ratio: "1:1", note: "Brand mark / logo lockup." },
+      "Certificate Template":  { ratio: "1:1.4", note: "Award / completion certificate." },
+      "Invitation Card":     { ratio: "4:5",  note: "Event invitation / RSVP card." },
+      "Gift Voucher":        { ratio: "3:1",  note: "Gift card / coupon design." },
+      "Threads Post":        { ratio: "1:1",  note: "Square feed post for Threads." },
+      "LinkedIn Carousel":   { ratio: "4:5",  note: "Multi-slide LinkedIn carousel." },
+      "Profile Picture (DP)":{ ratio: "1:1",  note: "Profile / avatar image." },
+      "News Thumbnail":      { ratio: "16:9", note: "News article thumbnail." },
     };
 
     const STYLE_PACKS = {
@@ -724,6 +764,46 @@
         "dreamy bokeh photography", "soft blurred light circles", "shallow depth of field",
         "glowing festive lights", "smooth creamy background", "elegant cinematic framing"
       ],
+      "String Art": [
+        "handmade string art style", "wound thread lines", "wooden pegboard texture",
+        "intricate geometric webs", "warm craft lighting", "precise nail-anchored shapes"
+      ],
+      "Fractal Art": [
+        "mesmerizing fractal art style", "infinitely repeating patterns", "mathematical precision",
+        "glowing neon color depth", "self-similar structures", "hypnotic geometric detail"
+      ],
+      "Vintage Travel Poster": [
+        "vintage travel poster style", "bold retro typography", "sun-washed scenic colors",
+        "art deco borders", "nostalgic wanderlust mood", "classic lithograph print"
+      ],
+      "Hand Lettering": [
+        "elegant hand lettering style", "flourished calligraphy strokes", "custom drawn typography",
+        "ink and nib texture", "graceful script flow", "personalized artisan charm"
+      ],
+      "Stencil Graffiti": [
+        "street stencil graffiti style", "spray paint texture", "bold cut-out silhouettes",
+        "urban wall background", "high contrast street art", "raw expressive energy"
+      ],
+      "Ink Splatter": [
+        "dynamic ink splatter style", "splashed droplets", "bold black ink on paper",
+        "energetic fluid motion", "high-contrast graphic power", "raw artistic spontaneity"
+      ],
+      "Crystal 3D": [
+        "glossy crystal 3D style", "translucent gem facets", "refractive light sparkle",
+        "smooth rounded glass forms", "soft depth of field", "premium modern render"
+      ],
+      "Geometric Pattern": [
+        "precise geometric pattern style", "tessellated repeating shapes", "symmetric color blocks",
+        "clean mathematical design", "bold graphic rhythm", "modern ornamental detail"
+      ],
+      "Cyberpunk Flat": [
+        "cyberpunk flat design style", "bold flat neon shapes", "minimal futuristic scenery",
+        "pixel-perfect clean vectors", "grid-based composition", "vibrant flat color palette"
+      ],
+      "Neon Outline": [
+        "glowing neon outline style", "thin electric line work", "dark backdrop glow",
+        "futuristic line illustrations", "luminescent color edges", "minimal bold silhouettes"
+      ],
     };
 
     const INDUSTRY_KEYWORDS = {
@@ -782,6 +862,16 @@
       "Telecom & Networking": ["connected network vibe", "clean data flow visuals", "reliable speed promise"],
       "Auto Parts & Spares": ["precise mechanical detail", "industrial durability", "performance engine feel"],
       "Textile & Clothing": ["rich fabric texture", "tailored fashion detail", "premium garment feel"],
+      "Dairy & Milk Products": ["fresh creamy appeal", "soft natural tones", "wholesome family vibe"],
+      "Grocery & Supermarket": ["fresh produce energy", "colorful shelf appeal", "daily convenience feel"],
+      "Pharmaceuticals": ["clean medical trust", "precise lab purity", "regulated quality look"],
+      "Petroleum & Fuel Stations": ["bold fuel station branding", "highway visibility", "energetic red and blue"],
+      "Cloud & Data Centers": ["scalable cloud infrastructure", "clean server corridors", "reliable digital backbone"],
+      "E-Learning Platforms": ["engaging online course vibe", "bright interactive UI", "accessible learning energy"],
+      "Cinema & Theatres": ["dramatic movie premiere glow", "spotlight marquee", "entertainment spectacle"],
+      "Museum & Art Galleries": ["refined gallery aesthetic", "curated exhibition lighting", "timeless cultural elegance"],
+      "Courier & Logistics": ["fast delivery motion", "tracking route visuals", "efficient package handling"],
+      "IT Consulting": ["smart solutions consulting", "clean workflow diagrams", "confident problem-solving"],
     };
 
     const platformEl   = document.getElementById('platform');
