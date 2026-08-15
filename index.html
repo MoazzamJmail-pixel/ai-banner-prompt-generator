@@ -311,8 +311,7 @@
             <span class="text-[11px] font-medium text-slate-500">Model-friendly style pack</span>
           </span>
           <select id="style" class="w-full rounded-xl border border-white/10 bg-[#16213b]/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition">
-            <option value="Modern Minimalist">Modern Minimalist</option>
-            <option value="Cyberpunk & Neon">Cyberpunk &amp; Neon</option>
+            <option value="Modern Minimalist">Modern Minimalist</option>            <option value="Cyberpunk & Neon">Cyberpunk &amp; Neon</option>
             <option value="Corporate Professional">Corporate Professional</option>
             <option value="Bold & Energetic">Bold &amp; Energetic</option>
             <option value="3D Render">3D Render</option>
@@ -376,6 +375,51 @@
             <option value="Geometric Pattern">Geometric Pattern</option>
             <option value="Cyberpunk Flat">Cyberpunk Flat</option>
             <option value="Neon Outline">Neon Outline</option>
+          </select>
+        </label>
+
+        <!-- Occasion / Event Theme -->
+        <label class="block">
+          <span class="mb-2 flex items-center justify-between text-sm font-head font-semibold text-slate-300">
+            <span>Occasion / Event Theme</span>
+            <span class="text-[11px] font-medium text-slate-500">Optional</span>
+          </span>
+          <select id="occasion" class="w-full rounded-xl border border-white/10 bg-[#16213b]/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 transition">
+            <option value="None (General)">None (General)</option>
+            <option value="Birthday">Birthday</option>
+            <option value="Independence Day">Independence Day</option>
+            <option value="Eid al-Fitr">Eid al-Fitr</option>
+            <option value="Eid al-Adha">Eid al-Adha</option>
+            <option value="Christmas">Christmas</option>
+            <option value="New Year">New Year</option>
+            <option value="Valentine's Day">Valentine's Day</option>
+            <option value="Ramadan">Ramadan</option>
+            <option value="Wedding Anniversary">Wedding Anniversary</option>
+            <option value="Graduation">Graduation</option>
+            <option value="Mother's Day">Mother's Day</option>
+            <option value="Father's Day">Father's Day</option>
+            <option value="Halloween">Halloween</option>
+            <option value="Thanksgiving">Thanksgiving</option>
+            <option value="Republic Day">Republic Day</option>
+            <option value="Labour Day">Labour Day</option>
+            <option value="Teachers' Day">Teachers' Day</option>
+            <option value="Diwali">Diwali</option>
+            <option value="Holi">Holi</option>
+            <option value="Black Friday Sale">Black Friday Sale</option>
+            <option value="Cyber Monday Sale">Cyber Monday Sale</option>
+            <option value="Summer Sale">Summer Sale</option>
+            <option value="Winter Sale">Winter Sale</option>
+            <option value="Clearance Sale">Clearance Sale</option>
+            <option value="Product Launch">Product Launch</option>
+            <option value="Grand Opening">Grand Opening</option>
+            <option value="Company Anniversary">Company Anniversary</option>
+            <option value="Women's Day">Women's Day</option>
+            <option value="Children's Day">Children's Day</option>
+            <option value="Baby Shower">Baby Shower</option>
+            <option value="Farewell Party">Farewell Party</option>
+            <option value="Housewarming">Housewarming</option>
+            <option value="Music Festival">Music Festival</option>
+            <option value="Tech Conference">Tech Conference</option>
           </select>
         </label>
 
@@ -874,9 +918,48 @@
       "IT Consulting": ["smart solutions consulting", "clean workflow diagrams", "confident problem-solving"],
     };
 
+    const OCCASION_KEYWORDS = {
+      "None (General)": null,
+      "Birthday": ["festive birthday celebration", "colorful balloons and confetti", "warm party lighting"],
+      "Independence Day": ["patriotic national celebration", "flag colors and fireworks", "proud festive atmosphere"],
+      "Eid al-Fitr": ["joyful Eid celebration", "crescent moon and lanterns", "elegant Islamic patterns"],
+      "Eid al-Adha": ["sacred Eid celebration", "elegant crescent motifs", "warm festive hospitality"],
+      "Christmas": ["cozy Christmas magic", "warm fairy lights", "festive red and green"],
+      "New Year": ["glittering New Year's Eve", "sparkling fireworks and confetti", "gold and midnight tones"],
+      "Valentine's Day": ["romantic Valentine's mood", "soft hearts and roses", "warm dreamy glow"],
+      "Ramadan": ["peaceful Ramadan atmosphere", "crescent moon and lanterns", "warm spiritual tones"],
+      "Wedding Anniversary": ["elegant anniversary celebration", "golden accents and roses", "romantic timeless styling"],
+      "Graduation": ["proud graduation celebration", "caps and diplomas", "bright hopeful atmosphere"],
+      "Mother's Day": ["warm heartfelt tribute", "soft floral elegance", "loving pastel tones"],
+      "Father's Day": ["warm appreciation theme", "classic masculine tones", "heartfelt family feel"],
+      "Halloween": ["spooky Halloween vibe", "pumpkins and bats", "moody orange and purple"],
+      "Thanksgiving": ["warm thanksgiving feast", "autumn harvest tones", "cozy family gratitude"],
+      "Republic Day": ["proud national celebration", "tricolor accents", "grand patriotic ceremony"],
+      "Labour Day": ["respectful workers' tribute", "bold hard-work themes", "clean professional energy"],
+      "Teachers' Day": ["grateful tribute to teachers", "warm classroom nostalgia", "appreciative respectful tone"],
+      "Diwali": ["glowing Diwali festival", "diyas and rangoli patterns", "warm golden celebration"],
+      "Holi": ["explosive Holi colors", "vibrant powder bursts", "joyful festive energy"],
+      "Black Friday Sale": ["high-impact sale frenzy", "bold discount badges", "urgent deal energy"],
+      "Cyber Monday Sale": ["digital shopping rush", "flash deal visuals", "fast checkout energy"],
+      "Summer Sale": ["bright summer promo", "sunny vibrant colors", "refreshing vacation vibe"],
+      "Winter Sale": ["cozy winter promo", "snow and frost accents", "warm seasonal deals"],
+      "Clearance Sale": ["final clearance energy", "bold price tags", "last chance urgency"],
+      "Product Launch": ["premium launch moment", "spotlight hero product", "anticipation and hype"],
+      "Grand Opening": ["celebratory grand opening", "ribbon cutting flair", "welcoming festive energy"],
+      "Company Anniversary": ["milestone celebration", "premium gold tones", "confident brand pride"],
+      "Women's Day": ["empowering celebration", "elegant floral accents", "confident warm tones"],
+      "Children's Day": ["bright playful celebration", "candy colors", "happy youthful energy"],
+      "Baby Shower": ["soft adorable baby shower", "pastel balloons and toys", "gentle warm glow"],
+      "Farewell Party": ["warm farewell celebration", "golden moments", "appreciative goodbye"],
+      "Housewarming": ["cozy housewarming vibe", "warm home details", "welcoming new beginning"],
+      "Music Festival": ["electric festival energy", "stage lights and crowds", "vibrant beat visuals"],
+      "Tech Conference": ["sleek tech summit look", "futuristic stage design", "innovation showcase"],
+    };
+
     const platformEl   = document.getElementById('platform');
     const industryEl   = document.getElementById('industry');
     const styleEl      = document.getElementById('style');
+    const occasionEl   = document.getElementById('occasion');
     const brandEl      = document.getElementById('brand');
     const topicEl      = document.getElementById('topic');
     const colorEl      = document.getElementById('color');
@@ -950,12 +1033,15 @@
       const platform = platformEl.value;
       const industry = industryEl.value;
       const style    = styleEl.value;
+      const occasion = occasionEl.value;
       const brand    = brandEl.value.trim();
       const topic    = topicEl.value.trim() || 'premium product';
       const color    = colorEl.value || '#06B6D4';
       const { ratio } = PLATFORMS[platform];
       const styleWords = STYLE_PACKS[style].join(', ');
       const industryWords = INDUSTRY_KEYWORDS[industry].join(', ');
+      const occasionWords = OCCASION_KEYWORDS[occasion];
+      const occasionLine = occasionWords ? `Occasion theme: ${occasionWords.join(', ')}. ` : '';
       const brandLine = brand ? `Brand identity: ${brand} integrated subtly into the design. ` : '';
       const colorLine = `Primary color palette: use ${color} as the main accent color for highlights and CTAs. `;
       return [
@@ -963,7 +1049,7 @@
         `Subject: ${topic}.`,
         `Style: ${styleWords}.`,
         `Industry tone: ${industryWords}.`,
-        `${brandLine}${colorLine}High-resolution marketing banner, sharp focus, professional color grading, visually balanced layout with clear focal point.`,
+        `${occasionLine}${brandLine}${colorLine}High-resolution marketing banner, sharp focus, professional color grading, visually balanced layout with clear focal point.`,
         `Aspect ratio --ar ${ratio}. Render-ready for ${platform}.`
       ].join(' ');
     }
