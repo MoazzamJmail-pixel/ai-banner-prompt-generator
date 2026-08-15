@@ -344,7 +344,7 @@
         <label class="block">
           <span class="mb-2 flex items-center justify-between text-sm font-head font-semibold text-slate-300">
             <span>Primary Color</span>
-            <span class="text-[11px] font-medium text-slate-500">Accent used in the design</span>
+            <span class="text-[11px] font-medium text-slate-500">Full palette — click any swatch</span>
           </span>
           <div class="flex flex-wrap items-center gap-3">
             <input id="color" type="color" value="#06b6d4"
@@ -721,7 +721,21 @@
       ratioNote.textContent = p.note;
     }
 
-    const SWATCHES = ['#06B6D4', '#A78BFA', '#F43F5E', '#FACC15', '#34D399', '#3B82F6', '#F97316', '#FFFFFF', '#111827', '#EC4899', '#8B5CF6', '#14B8A6', '#EF4444', '#0EA5E9', '#6366F1', '#0F172A'];
+    const SWATCHES = [
+      '#EF4444', '#F43F5E', '#DC2626', '#FB7185',
+      '#F97316', '#F59E0B', '#FDBA74',
+      '#FACC15', '#EAB308', '#FDE047',
+      '#22C55E', '#4ADE80', '#16A34A', '#34D399', '#10B981',
+      '#14B8A6', '#2DD4BF',
+      '#06B6D4', '#22D3EE', '#0EA5E9', '#0891B2',
+      '#3B82F6', '#2563EB', '#1D4ED8', '#60A5FA',
+      '#6366F1', '#4F46E5',
+      '#8B5CF6', '#A78BFA', '#7C3AED', '#C084FC',
+      '#D946EF', '#E879F9',
+      '#EC4899', '#F472B6',
+      '#92400E', '#78350F', '#A16207',
+      '#FFFFFF', '#F8FAFC', '#CBD5E1', '#64748B', '#111827', '#0F172A', '#000000'
+    ];
     SWATCHES.forEach(c => {
       const btn = document.createElement('button');
       btn.type = 'button';
